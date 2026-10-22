@@ -125,7 +125,7 @@ export default function HeroSection() {
               BS Info Tech
             </div>
             <div className="text-[11px] font-mono text-cyan-300">
-              CGPA 3.10 / 4.00
+              CGPA 3.13 / 4.00
             </div>
           </div>
 

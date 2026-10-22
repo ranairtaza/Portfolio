@@ -14,11 +14,11 @@ export const PERSONAL_INFO = {
   supportingText:
     'Specializing in full-stack web applications, resilient multi-tenant SaaS platforms, practical AI integrations, and high-reliability business automation pipelines.',
   aboutNarrative: [
-    'I am an Information Technology graduate (BS IT, completed June 2026, CGPA 3.10 / 4.00) focused on engineering software systems that eliminate operational bottlenecks.',
-    'At KeyAbroad Consultants, I engineered core internal operational platforms and biometric hardware integration bridges, transforming manual, paper-heavy workflows into automated cloud services.',
+    'I am an Information Technology graduate (BS IT, completed June 2026, CGPA 3.13 / 4.00) focused on engineering software systems that eliminate operational bottlenecks.',
+    'At KeyAbroad Consultants (Faisalabad), I engineered core internal operational platforms and biometric hardware integration bridges, transforming manual, paper-heavy workflows into automated cloud services.',
     'My core technical curiosity lies at the intersection of robust backend architectures, type-safe full-stack ecosystems, and deterministic AI automation that creates tangible value for businesses.',
   ],
-  educationSummary: 'BS Information Technology • Graduated June 2026 • CGPA 3.10 / 4.00',
+  educationSummary: 'BS Information Technology • Graduated June 2026 • CGPA 3.13 / 4.00',
   location: 'Pakistan (Available Globally / Remote)',
   email: 'irtaza.contact@gmail.com',
   github: 'https://github.com/ranairtaza',
@@ -334,11 +334,11 @@ export const JOURNEY_MILESTONES: JourneyMilestone[] = [
     type: 'experience',
     title: 'Software Developer',
     organization: 'KeyAbroad Consultants',
-    location: 'Lahore, Pakistan / Hybrid',
-    period: '2024 — Present',
-    badge: 'Professional Experience',
+    location: 'Faisalabad, Pakistan',
+    period: '2024 (Completed)',
+    badge: 'Software Development',
     summary:
-      'Led the software development of internal operational systems, student case management workflows, and hardware biometric data synchronization pipelines.',
+      'Engineered internal operational systems, student case management workflows, and hardware biometric data synchronization pipelines.',
     outcomes: [
       'Architected KeyAbroad 2.0 student platform, centralizing applications across dozens of international university intakes.',
       'Constructed the Biometric Attendance & HR Integration engine, automating device punch sync to PostgreSQL.',
@@ -354,11 +354,11 @@ export const JOURNEY_MILESTONES: JourneyMilestone[] = [
     organization: 'University Degree Program',
     location: 'Pakistan',
     period: 'Completed June 2026',
-    badge: 'CGPA 3.10 / 4.00 • June 2026',
+    badge: 'CGPA 3.13 / 4.00 • June 2026',
     summary:
       'Rigorous 4-year undergraduate degree establishing solid foundations in computer science, relational databases, network engineering, and information security.',
     outcomes: [
-      'Graduated with a Cumulative GPA of 3.10 / 4.00 (June 2026).',
+      'Graduated with a Cumulative GPA of 3.13 / 4.00 (June 2026).',
       'Completed in-depth coursework in Database Systems, Computer Networks, Software Engineering, Information Security, and Web Architecture.',
       'Applied theoretical computer science and networking protocols to real-world software platforms and socket programming.',
     ],

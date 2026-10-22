@@ -69,11 +69,11 @@ export default function AboutSection() {
             <p>
               As a{' '}
               <span className="text-white font-medium">
-                BS Information Technology graduate (June 2026, CGPA 3.10 / 4.00)
+                BS Information Technology graduate (June 2026, CGPA 3.13 / 4.00)
               </span>
-              , I combine strong theoretical computing foundations with active hands-on engineering work at{' '}
+              , I combine strong theoretical computing foundations with proven hands-on software development at{' '}
               <span className="text-cyan-300 font-medium underline decoration-cyan-400/50 underline-offset-4">
-                KeyAbroad Consultants
+                KeyAbroad Consultants (Faisalabad)
               </span>
               , where I spearheaded internal operations platforms and architected biometric attendance synchronization engines.
             </p>
@@ -94,7 +94,7 @@ export default function AboutSection() {
             <div className="p-3.5 rounded-xl bg-surface-primary/70 border border-white/[0.08]">
               <div className="text-[11px] font-mono text-violet-300">DEGREE</div>
               <div className="text-sm font-semibold text-slate-100 mt-1">BS Info Tech</div>
-              <div className="text-xs text-slate-400">June 2026 • 3.10 CGPA</div>
+              <div className="text-xs text-slate-400">June 2026 • 3.13 CGPA</div>
             </div>
             <div className="p-3.5 rounded-xl bg-surface-primary/70 border border-white/[0.08]">
               <div className="text-[11px] font-mono text-sky-300">FOCUS</div>
@@ -201,7 +201,7 @@ export default function AboutSection() {
                       <div className="flex items-center justify-between text-xs text-slate-300 pt-1">
                         <span>Completed June 2026</span>
                         <span className="font-mono px-2 py-0.5 rounded bg-cyan-300 text-[#070a12] font-bold">
-                          CGPA 3.10 / 4.00
+                          CGPA 3.13 / 4.00
                         </span>
                       </div>
                     </div>
