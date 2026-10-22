@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { PortfolioProvider } from '../context/PortfolioContext';
-import SharedBackground from '../components/background/SharedBackground';
+import UniverseBackground from '../components/background/UniverseBackground';
 import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
 import CommandPalette from '../components/ui/CommandPalette';
@@ -17,6 +17,8 @@ const geistMono = Geist_Mono({
   variable: '--font-geist-mono',
   subsets: ['latin'],
 });
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://rana-os.vercel.app';
 
 export const metadata: Metadata = {
   title: 'Rana Irtaza Ali Khan — Full-Stack Engineer & AI Solutions Architect | RANA.OS',
@@ -37,13 +39,13 @@ export const metadata: Metadata = {
     'Biometric Attendance',
     'SaaS Architecture',
   ],
-  authors: [{ name: 'Rana Irtaza Ali Khan', url: 'https://github.com/rana-irtaza' }],
+  authors: [{ name: 'Rana Irtaza Ali Khan', url: 'https://github.com/ranairtaza' }],
   creator: 'Rana Irtaza Ali Khan',
-  metadataBase: new URL('https://rana-os.vercel.app'),
+  metadataBase: new URL(siteUrl),
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://rana-os.vercel.app',
+    url: siteUrl,
     title: 'Rana Irtaza Ali Khan — Full-Stack Engineer & AI Solutions Architect | RANA.OS',
     description:
       'Engineering portfolio of Rana Irtaza Ali Khan. Building resilient web systems, multi-tenant SaaS architectures, and automated business workflows.',
@@ -82,7 +84,7 @@ export default function RootLayout({
       'Multi-Tenant SaaS',
       'Biometric Systems',
     ],
-    url: 'https://rana-os.vercel.app',
+    url: siteUrl,
     sameAs: [PERSONAL_INFO.github, PERSONAL_INFO.linkedin],
   };
 
@@ -97,10 +99,10 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="min-h-full flex flex-col font-sans bg-[#030712] text-slate-100 selection:bg-cyan-500/30 selection:text-cyan-200">
+      <body className="min-h-full flex flex-col font-sans bg-[#070a12] text-[#f8fafc] selection:bg-cyan-500/30 selection:text-cyan-200">
         <PortfolioProvider>
-          {/* Shared 3D/2D Interactive Background */}
-          <SharedBackground />
+          {/* Persistent Interactive 3D Universe Background with WebGL detection and Canvas Fallback */}
+          <UniverseBackground />
 
           {/* Sticky Navigation */}
           <Navbar />

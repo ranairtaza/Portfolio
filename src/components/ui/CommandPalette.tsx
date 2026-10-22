@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import { motion, AnimatePresence } from 'motion/react';
 import { usePortfolio } from '../../context/PortfolioContext';
 import { PERSONAL_INFO, PROJECTS } from '../../data/portfolio';
 import {
@@ -65,7 +66,7 @@ function CommandPaletteModal({
       subtitle: 'Jump to top intro and system status overview',
       icon: <Sparkles className="w-4 h-4 text-cyan-400" />,
       action: () => {
-        window.location.hash = 'hero';
+        window.location.hash = 'home';
         onClose();
       },
     },
@@ -103,13 +104,24 @@ function CommandPaletteModal({
       },
     },
     {
-      id: 'nav-timeline',
+      id: 'nav-journey',
       category: 'Navigation',
       title: 'Experience & Education Timeline',
       subtitle: 'KeyAbroad Consultants & BS Information Technology',
       icon: <FileCode2 className="w-4 h-4 text-cyan-400" />,
       action: () => {
-        window.location.hash = 'timeline';
+        window.location.hash = 'journey';
+        onClose();
+      },
+    },
+    {
+      id: 'nav-beyond-code',
+      category: 'Navigation',
+      title: 'Beyond Code',
+      subtitle: 'AI agents, entrepreneurship, cybersecurity, fitness',
+      icon: <Sparkles className="w-4 h-4 text-violet-400" />,
+      action: () => {
+        window.location.hash = 'beyond-code';
         onClose();
       },
     },
@@ -234,13 +246,23 @@ function CommandPaletteModal({
       className="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4"
     >
       {/* Backdrop */}
-      <div
-        className="fixed inset-0 bg-[#030712]/80 backdrop-blur-md transition-opacity"
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.15 }}
+        className="fixed inset-0 bg-[#030712]/80 backdrop-blur-md"
         onClick={onClose}
       />
 
       {/* Palette Container */}
-      <div className="relative w-full max-w-xl rounded-2xl bg-[#070d1d] border border-cyan-500/30 shadow-2xl shadow-cyan-950/50 overflow-hidden z-10 flex flex-col max-h-[80vh]">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.96, y: -12 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.96, y: -12 }}
+        transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
+        className="relative w-full max-w-xl rounded-2xl bg-[#070d1d] border border-cyan-500/30 shadow-2xl shadow-cyan-950/50 overflow-hidden z-10 flex flex-col max-h-[80vh]"
+      >
         {/* Search Input Bar */}
         <div className="flex items-center px-4 py-3.5 border-b border-white/[0.08] bg-surface-secondary">
           <Search className="w-5 h-5 text-cyan-400 mr-3 shrink-0" />
@@ -329,7 +351,7 @@ function CommandPaletteModal({
             Current: {graphicsMode}
           </div>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }
@@ -338,13 +360,15 @@ export default function CommandPalette() {
   const { isCommandPaletteOpen, setIsCommandPaletteOpen, graphicsMode, setGraphicsMode } =
     usePortfolio();
 
-  if (!isCommandPaletteOpen) return null;
-
   return (
-    <CommandPaletteModal
-      onClose={() => setIsCommandPaletteOpen(false)}
-      graphicsMode={graphicsMode}
-      setGraphicsMode={setGraphicsMode}
-    />
+    <AnimatePresence>
+      {isCommandPaletteOpen && (
+        <CommandPaletteModal
+          onClose={() => setIsCommandPaletteOpen(false)}
+          graphicsMode={graphicsMode}
+          setGraphicsMode={setGraphicsMode}
+        />
+      )}
+    </AnimatePresence>
   );
 }

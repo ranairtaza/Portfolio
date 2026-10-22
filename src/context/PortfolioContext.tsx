@@ -8,6 +8,8 @@ interface PortfolioContextType {
   setGraphicsMode: (mode: GraphicsMode) => void;
   activeSection: string;
   setActiveSection: (section: string) => void;
+  activeProjectId: string | null;
+  setActiveProjectId: (id: string | null) => void;
   isCommandPaletteOpen: boolean;
   setIsCommandPaletteOpen: (open: boolean) => void;
   toggleCommandPalette: () => void;
@@ -30,15 +32,9 @@ function getReducedMotionSnapshot() {
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
 
-export function PortfolioProvider({ children }: { children: React.ReactNode }) {
-  const isReducedMotion = useSyncExternalStore(
-    subscribeReducedMotion,
-    getReducedMotionSnapshot,
-    () => false
-  );
-
-  const [graphicsMode, setGraphicsModeState] = useState<GraphicsMode>(() => {
-    if (typeof window !== 'undefined') {
+function getInitialGraphicsMode(): GraphicsMode {
+  if (typeof window !== 'undefined') {
+    try {
       const savedMode = localStorage.getItem('rana_os_graphics_mode') as GraphicsMode;
       if (savedMode && ['3d-high', '3d-low', '2d-ambient'].includes(savedMode)) {
         return savedMode;
@@ -46,11 +42,23 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         return '2d-ambient';
       }
+    } catch {
+      // ignore storage access restrictions
     }
-    return '3d-high';
-  });
+  }
+  return '3d-high';
+}
 
+export function PortfolioProvider({ children }: { children: React.ReactNode }) {
+  const isReducedMotion = useSyncExternalStore(
+    subscribeReducedMotion,
+    getReducedMotionSnapshot,
+    () => false
+  );
+
+  const [graphicsMode, setGraphicsModeState] = useState<GraphicsMode>(getInitialGraphicsMode);
   const [activeSection, setActiveSection] = useState<string>('hero');
+  const [activeProjectId, setActiveProjectId] = useState<string | null>(null);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState<boolean>(false);
   const [selectedSkill, setSelectedSkill] = useState<string | null>(null);
 
@@ -88,6 +96,8 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
         setGraphicsMode,
         activeSection,
         setActiveSection,
+        activeProjectId,
+        setActiveProjectId,
         isCommandPaletteOpen,
         setIsCommandPaletteOpen,
         toggleCommandPalette,

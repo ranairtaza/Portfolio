@@ -2,6 +2,13 @@ export type ProjectCategory = 'all' | 'saas' | 'enterprise' | 'automation';
 
 export type ProjectStatus = 'Prototype' | 'Shipped' | 'Production Architecture' | 'Active Development';
 
+export interface ProjectLink {
+  label: string;
+  url: string;
+  isExternal: boolean;
+  type: 'github' | 'live' | 'case-study';
+}
+
 export interface ProjectCaseStudy {
   overview: string;
   problemStatement: string;
@@ -19,46 +26,65 @@ export interface Project {
   title: string;
   subtitle: string;
   category: ProjectCategory;
+  categoryLabel: string;
   status: ProjectStatus;
   statusBadge: string;
   description: string;
+  problemStatement: string;
   highlights: string[];
   technologies: string[];
-  architectureDiagram?: string;
   githubUrl?: string;
   liveUrl?: string;
+  previewImageMock?: {
+    accentColor: string;
+    routeEndpoint: string;
+    terminalSnippet: string;
+  };
   isFeatured: boolean;
   caseStudy: ProjectCaseStudy;
 }
 
-export type SkillCategory = 'frontend' | 'backend' | 'systems' | 'ai-automation';
+export type SkillCategory =
+  | 'frontend'
+  | 'backend'
+  | 'databases'
+  | 'ai-automation'
+  | 'infrastructure'
+  | 'product-engineering';
 
-export interface Skill {
+export interface SkillItem {
   name: string;
-  category: SkillCategory;
-  proficiency?: 'Core' | 'Advanced' | 'Practicing';
-  relatedProjectIds: string[];
-  description: string;
+  level?: string;
+  highlight?: string;
 }
 
-export interface TimelineItem {
+export interface SkillCategoryGroup {
+  id: SkillCategory;
+  title: string;
+  description: string;
+  iconName: string;
+  skills: SkillItem[];
+}
+
+export interface JourneyMilestone {
   id: string;
   type: 'experience' | 'education';
   title: string;
   organization: string;
   location: string;
   period: string;
+  badge?: string;
   summary: string;
-  achievements: string[];
-  skillsUsed: string[];
-  verificationBadge?: string;
+  outcomes: string[];
+  stackTags: string[];
 }
 
-export interface InterestTopic {
+export interface BeyondCodeItem {
+  id: string;
   title: string;
   domain: string;
   description: string;
-  currentExploration: string;
+  currentNote: string;
   iconName: string;
 }
 

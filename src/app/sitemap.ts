@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next';
 import { PROJECTS } from '../data/portfolio';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://rana-os.vercel.app';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://rana-os.vercel.app';
 
   const projectRoutes = PROJECTS.map((project) => ({
     url: `${baseUrl}/projects/${project.slug}`,

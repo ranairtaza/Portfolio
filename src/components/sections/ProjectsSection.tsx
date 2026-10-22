@@ -2,17 +2,21 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { motion, AnimatePresence } from 'motion/react';
 import { PROJECTS } from '../../data/portfolio';
 import { ProjectCategory } from '../../types/portfolio';
+import { usePortfolio } from '../../context/PortfolioContext';
 import {
   FolderGit2,
   ExternalLink,
   ArrowRight,
   CheckCircle2,
+  Terminal,
 } from 'lucide-react';
 import { GithubIcon } from '../ui/BrandIcons';
 
 export default function ProjectsSection() {
+  const { isReducedMotion, setActiveProjectId, activeProjectId } = usePortfolio();
   const [activeCategory, setActiveCategory] = useState<ProjectCategory>('all');
 
   const categories: { id: ProjectCategory; label: string }[] = [
@@ -31,22 +35,22 @@ export default function ProjectsSection() {
     <section
       id="projects"
       aria-label="Featured Projects"
-      className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-white/[0.06]"
+      className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-white/[0.08]"
     >
       <div className="space-y-10">
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="space-y-3">
-            <div className="inline-flex items-center space-x-2 text-xs font-mono tracking-wider uppercase text-cyan-400">
+            <div className="inline-flex items-center space-x-2 text-xs font-mono tracking-wider uppercase text-cyan-300">
               <FolderGit2 className="w-3.5 h-3.5" />
               <span>02 // Systems & Software</span>
             </div>
             <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white">
-              Featured Engineering Projects
+              Featured Projects
             </h2>
             <p className="text-sm sm:text-base text-slate-400 max-w-2xl">
-              Architected software solutions spanning multi-tenant SaaS, educational
-              workflow engines, and physical biometric hardware integrations.
+              Concrete software systems engineered to solve real operational problems,
+              spanning multi-tenant SaaS, educational portals, and hardware synchronization.
             </p>
           </div>
 
@@ -58,7 +62,7 @@ export default function ProjectsSection() {
                 onClick={() => setActiveCategory(cat.id)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
                   activeCategory === cat.id
-                    ? 'bg-cyan-500 text-[#030712] font-semibold shadow-md shadow-cyan-500/20'
+                    ? 'bg-cyan-300 text-[#070a12] font-semibold shadow-md shadow-cyan-300/20'
                     : 'text-slate-400 hover:text-slate-200 hover:bg-white/[0.05]'
                 }`}
               >
@@ -70,20 +74,36 @@ export default function ProjectsSection() {
 
         {/* Project Cards Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {filteredProjects.map((project) => {
-            const isPrototype = project.status === 'Active Development';
-            const isShipped = project.status === 'Shipped';
+          <AnimatePresence mode="popLayout">
+            {filteredProjects.map((project) => {
+              const isPrototype = project.status === 'Active Development';
+              const isShipped = project.status === 'Shipped';
+              const isActiveInScene = activeProjectId === project.id;
 
-            return (
-              <div
-                key={project.id}
-                className="group relative flex flex-col justify-between rounded-2xl glass-panel border border-white/[0.08] hover:border-cyan-500/30 p-6 transition-all duration-300 hover:shadow-2xl hover:shadow-cyan-950/20"
-              >
+              return (
+                <motion.div
+                  key={project.id}
+                  layout={!isReducedMotion}
+                  initial={{ opacity: isReducedMotion ? 1 : 0, scale: isReducedMotion ? 1 : 0.96 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: isReducedMotion ? 1 : 0, scale: isReducedMotion ? 1 : 0.96 }}
+                  transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+                  tabIndex={0}
+                  onMouseEnter={() => setActiveProjectId(project.id)}
+                  onMouseLeave={() => setActiveProjectId(null)}
+                  onFocus={() => setActiveProjectId(project.id)}
+                  onBlur={() => setActiveProjectId(null)}
+                  className={`group relative flex flex-col justify-between rounded-2xl glass-panel border p-6 transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/50 ${
+                    isActiveInScene
+                      ? 'border-cyan-300/60 shadow-2xl shadow-cyan-950/30'
+                      : 'border-white/[0.08] hover:border-cyan-300/40 hover:shadow-2xl hover:shadow-cyan-950/20'
+                  }`}
+                >
                 <div className="space-y-4">
                   {/* Top Bar: Category & Status Badge */}
                   <div className="flex items-center justify-between">
                     <span className="font-mono text-[11px] uppercase tracking-wider text-slate-400">
-                      {project.category}
+                      {project.categoryLabel}
                     </span>
                     <span
                       className={`inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-mono font-medium ${
@@ -99,12 +119,41 @@ export default function ProjectsSection() {
                           isShipped
                             ? 'bg-emerald-400'
                             : isPrototype
-                            ? 'bg-cyan-400 animate-pulse'
+                            ? 'bg-cyan-300 animate-pulse'
                             : 'bg-violet-400'
                         }`}
                       />
                       <span>{project.statusBadge}</span>
                     </span>
+                  </div>
+
+                  {/* Visual Screenshot / Preview Frame Container */}
+                  <div className="rounded-xl overflow-hidden border border-white/[0.08] bg-[#0c1222]/90 flex flex-col">
+                    {/* Mock Browser/Terminal Frame Bar */}
+                    <div className="px-3 py-2 bg-surface-secondary/90 border-b border-white/[0.06] flex items-center justify-between text-[10px] font-mono text-slate-400">
+                      <div className="flex items-center space-x-1.5">
+                        <span className="w-2 h-2 rounded-full bg-rose-500/80" />
+                        <span className="w-2 h-2 rounded-full bg-amber-500/80" />
+                        <span className="w-2 h-2 rounded-full bg-emerald-500/80" />
+                      </div>
+                      <span className="text-slate-500 truncate max-w-[150px]">
+                        {project.previewImageMock?.routeEndpoint || `/${project.slug}`}
+                      </span>
+                      <Terminal className="w-3 h-3 text-cyan-300/80" />
+                    </div>
+
+                    {/* Visual Area (Supports real screenshot or telemetry preview) */}
+                    <div className="p-4 flex flex-col justify-center min-h-[95px] relative overflow-hidden bg-gradient-to-b from-white/[0.02] to-transparent">
+                      <div className="text-[11px] font-mono text-slate-300 flex items-center space-x-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-cyan-300" />
+                        <span className="truncate">
+                          {project.previewImageMock?.terminalSnippet || `${project.title} // Core System`}
+                        </span>
+                      </div>
+                      <div className="text-[10px] text-slate-400 mt-1 font-mono">
+                        Status: {project.status} • Stack: {project.technologies.slice(0, 3).join(', ')}
+                      </div>
+                    </div>
                   </div>
 
                   {/* Project Title & Subtitle */}
@@ -117,20 +166,25 @@ export default function ProjectsSection() {
                     </p>
                   </div>
 
-                  {/* Description */}
-                  <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                    {project.description}
-                  </p>
+                  {/* Problem-Focused Description */}
+                  <div className="space-y-1">
+                    <span className="text-[10px] font-mono uppercase tracking-wider text-cyan-300 block">
+                      Problem Solved
+                    </span>
+                    <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                      {project.problemStatement}
+                    </p>
+                  </div>
 
-                  {/* Architectural Highlights */}
+                  {/* Key Highlights */}
                   <div className="space-y-2 pt-2 border-t border-white/[0.06]">
                     <span className="text-[10px] font-mono uppercase tracking-wider text-slate-400 block">
-                      Key Highlights
+                      Implementation Highlights
                     </span>
                     <ul className="space-y-1.5 text-[11px] text-slate-300">
-                      {project.highlights.slice(0, 3).map((hl, i) => (
+                      {project.highlights.slice(0, 2).map((hl, i) => (
                         <li key={i} className="flex items-start space-x-2">
-                          <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400 shrink-0 mt-0.5" />
+                          <CheckCircle2 className="w-3.5 h-3.5 text-cyan-300 shrink-0 mt-0.5" />
                           <span>{hl}</span>
                         </li>
                       ))}
@@ -154,7 +208,7 @@ export default function ProjectsSection() {
                 <div className="pt-6 mt-6 border-t border-white/[0.06] flex items-center justify-between">
                   <Link
                     href={`/projects/${project.slug}`}
-                    className="inline-flex items-center space-x-1.5 text-xs font-semibold text-cyan-400 hover:text-cyan-300 group/link transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400 rounded"
+                    className="inline-flex items-center space-x-1.5 text-xs font-semibold text-cyan-300 hover:text-cyan-200 group/link transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-cyan-300 rounded"
                   >
                     <span>Read Case Study</span>
                     <ArrowRight className="w-3.5 h-3.5 group-hover/link:translate-x-1 transition-transform" />
@@ -166,7 +220,7 @@ export default function ProjectsSection() {
                         href={project.githubUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/[0.06] transition-colors"
+                        className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/[0.06] transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-cyan-300"
                         title="View GitHub Repository"
                         aria-label={`GitHub for ${project.title}`}
                       >
@@ -178,8 +232,8 @@ export default function ProjectsSection() {
                         href={project.liveUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="p-1.5 rounded-lg text-slate-400 hover:text-cyan-300 hover:bg-white/[0.06] transition-colors"
-                        title="View Live Concept"
+                        className="p-1.5 rounded-lg text-slate-400 hover:text-cyan-300 hover:bg-white/[0.06] transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-cyan-300"
+                        title="View Live Preview"
                         aria-label={`Live Demo for ${project.title}`}
                       >
                         <ExternalLink className="w-4 h-4" />
@@ -187,10 +241,11 @@ export default function ProjectsSection() {
                     )}
                   </div>
                 </div>
-              </div>
+              </motion.div>
             );
           })}
-        </div>
+        </AnimatePresence>
+      </div>
       </div>
     </section>
   );
