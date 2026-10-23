@@ -3,332 +3,300 @@ import {
   SkillCategoryGroup,
   JourneyMilestone,
   BeyondCodeItem,
+  ServiceArea,
 } from '../types/portfolio';
+import { PROJECTS_DATA } from './projects';
 
 export const PERSONAL_INFO = {
   name: 'Rana Irtaza Ali Khan',
   handle: 'ranairtaza',
-  systemTitle: 'RANA.OS // Phase 1 Foundation',
+  systemTitle: 'RANA.OS // Professional Identity & Engineering Portfolio',
   headline: 'I build software that solves real problems.',
-  role: 'Full-Stack Software Engineer & AI Solutions Architect',
+  role: 'Full-Stack Developer | SaaS Products | AI Integrations & Business Automation',
+  intro:
+    'I build web applications and explore AI-powered software products that solve practical business problems. My interests span full-stack development, SaaS architecture, intelligent automation, and reliable software systems.',
   supportingText:
-    'Specializing in full-stack web applications, resilient multi-tenant SaaS platforms, practical AI integrations, and high-reliability business automation pipelines.',
+    'I build web applications and explore AI-powered software products that solve practical business problems. My interests span full-stack development, SaaS architecture, intelligent automation, and reliable software systems.',
   aboutNarrative: [
-    'I am an Information Technology graduate (BS IT, completed June 2026, CGPA 3.13 / 4.00) focused on engineering software systems that eliminate operational bottlenecks.',
-    'At KeyAbroad Consultants (Faisalabad), I engineered core internal operational platforms and biometric hardware integration bridges, transforming manual, paper-heavy workflows into automated cloud services.',
-    'My core technical curiosity lies at the intersection of robust backend architectures, type-safe full-stack ecosystems, and deterministic AI automation that creates tangible value for businesses.',
+    'I hold a Bachelor of Science in Information Technology (completion June 2026, CGPA 3.1/4.00), giving me a solid grounding in computing principles, relational database design, network architecture, and software development.',
+    'At KeyAbroad Consultants, I worked on software development contributions including web application functionality, internal business systems, biometric hardware integrations, and technical SEO to streamline operational workflows.',
+    'I am keenly interested in building practical SaaS products and useful business software that automate manual bottlenecks, reduce human error, and deliver measurable operational clarity.',
+    'My ongoing focus is on deepening practical engineering skills—emphasizing type safety, clean API contracts, resilient data storage, and deterministic automation.',
+    'Beyond day-to-day web development, I actively explore applied artificial intelligence, business automation, cybersecurity fundamentals, cloud computing, and software entrepreneurship.',
   ],
-  educationSummary: 'BS Information Technology • Graduated June 2026 • CGPA 3.13 / 4.00',
-  location: 'Pakistan (Available Globally / Remote)',
-  email: 'irtaza.contact@gmail.com',
+  educationSummary: 'BS Information Technology • Completion June 2026 • CGPA 3.1/4.00',
+  location: 'Pakistan (Available for Remote / Hybrid Work)',
+  // Configurable email field:
+  // Direct email actions (mailto buttons, copy email) are rendered ONLY when a verified email is provided here or via NEXT_PUBLIC_CONTACT_EMAIL.
+  // Kept empty by default to prevent displaying unverified or placeholder email addresses.
+  email: process.env.NEXT_PUBLIC_CONTACT_EMAIL || '',
   github: 'https://github.com/ranairtaza',
-  linkedin: 'https://linkedin.com/in/rana-irtaza',
-  bookingUrl: 'mailto:irtaza.contact@gmail.com?subject=Project%20Discovery%20%2F%20Collaboration%20Inquiry',
-  status: 'Open for Full-Stack Roles & Technical Consulting',
+  linkedin: 'https://linkedin.com/in/rana-irtaza-ali-khan-849859227/',
+  bookingUrl: 'https://calendar.app.google/c2aHvSbZivHms8St6',
+  status: 'Available for Full-Stack Roles & SaaS Collaborations',
+  // Configurable résumé asset location:
+  // Place your verified PDF at public/resume.pdf and set hasResumePdf to true (or set NEXT_PUBLIC_HAS_RESUME=true).
+  // The download action remains hidden until a real PDF is confirmed to exist.
+  resumeUrl: '/resume.pdf',
+  hasResumePdf: process.env.NEXT_PUBLIC_HAS_RESUME === 'true' || false,
+  avatarUrl: '', // Profile image component gracefully displays authentic initials/system badge until a real photo is supplied
+  education: {
+    degree: 'BS Information Technology',
+    completion: 'June 2026',
+    cgpa: '3.1/4.00',
+    extensibleDetails: [
+      { label: 'Degree Program', value: 'Bachelor of Science in Information Technology' },
+      { label: 'Completion Date', value: 'June 2026' },
+      { label: 'Cumulative GPA', value: '3.1 / 4.00' },
+      { label: 'Field of Study', value: 'Information Technology & Software Systems' },
+    ],
+  },
 };
 
-export const PROJECTS: Project[] = [
-  {
-    id: 'leadmachine',
-    slug: 'leadmachine',
-    title: 'LeadMachine',
-    subtitle: 'Multi-Tenant AI-Assisted Lead Discovery & Outreach Engine',
-    category: 'saas',
-    categoryLabel: 'SaaS & AI Prototype',
-    status: 'Active Development',
-    statusBadge: 'Active Prototype',
-    description:
-      'A multi-tenant SaaS concept designed to streamline prospective client qualification, CRM ingestion, and AI-driven personalized outreach workflows with strict organization-level data isolation.',
-    problemStatement:
-      'Sales teams waste excessive manual hours reviewing unstructured web inquiries and composing cold emails, while enterprise CRM tools are cost-prohibitive and lack tenant-isolated AI pipelines.',
-    highlights: [
-      'Multi-tenant database schema built on PostgreSQL with Row-Level Security (RLS) enforcement.',
-      'Prompt-engineered qualification pipelines that classify incoming buyer readiness deterministically.',
-      'Server-driven Next.js App Router dashboards with real-time stage progression.',
-      'Asynchronous webhook receiver queues ensuring reliable message ingestion.',
-    ],
-    technologies: [
-      'Next.js',
-      'TypeScript',
-      'Tailwind CSS',
-      'Supabase',
-      'PostgreSQL',
-      'Prisma',
-      'REST APIs',
-      'AI Integrations',
-    ],
-    githubUrl: 'https://github.com/ranairtaza/Saas-AI',
-    liveUrl: 'https://saas-2e91nmukz-ranairtazas-projects.vercel.app/',
-    previewImageMock: {
-      accentColor: '#67E8F9',
-      routeEndpoint: '/api/v1/tenant/lead-qualify',
-      terminalSnippet: 'tenant_id=lead_09x • rls_policy=STRICT • readiness_score=88%',
-    },
-    isFeatured: true,
-    caseStudy: {
-      overview:
-        'LeadMachine is an exploratory multi-tenant architecture designed to validate automated lead scoring and personalized sequence triggering for small-to-medium enterprise sales teams.',
-      problemStatement:
-        'Triaging inquiries across disparate channels without structured tenant isolation creates data leakage vulnerabilities and excessive manual overhead.',
-      architectureNotes: [
-        'Shared database tenancy with schema-level tenant partitioning enforced via PostgreSQL RLS.',
-        'Prisma ORM for strict compile-time query modeling and relational migration integrity.',
-        'Deterministic JSON extraction protocols preventing hallucinated payload shapes.',
-      ],
-      techStack: [
-        'Next.js 16 (App Router)',
-        'TypeScript',
-        'Tailwind CSS v4',
-        'Supabase (PostgreSQL & Auth)',
-        'Prisma ORM',
-        'Vercel Edge Functions',
-      ],
-      dataFlow: [
-        '1. Intake: Raw lead payload arrives via public tenant webhook endpoint.',
-        '2. Verification: Auth middleware validates API token and verifies tenant_id context.',
-        '3. AI Analysis: Edge worker parses lead metrics against tenant criteria via AI endpoints.',
-        '4. Storage: Evaluated record persisted with row-level tenant constraints in PostgreSQL.',
-        '5. Dispatch: Automated notifications and scheduled email sequences trigger.',
-      ],
-      keyChallenges: [
-        'Ensuring tenant isolation: Enforced PostgreSQL RLS policies at the database layer.',
-        'LLM response variance: Used strict JSON schema mode and fallback parsers.',
-      ],
-      currentStatus:
-        'Prototype & Architectural Validation. Core multi-tenant auth, schemas, and AI pipeline prototypes are implemented. Ongoing work includes webhook integrations and analytics dashboard refinement.',
-      futureRoadmap: [
-        'OAuth integration for Google Workspace and Microsoft 365.',
-        'Custom tenant vector embedding stores.',
-        'Stripe billing integration.',
-      ],
-    },
-  },
-  {
-    id: 'keyabroad',
-    slug: 'keyabroad',
-    title: 'KeyAbroad 2.0',
-    subtitle: 'Educational Consultancy Platform & Student Case Management System',
-    category: 'enterprise',
-    categoryLabel: 'Enterprise System',
-    status: 'Shipped',
-    statusBadge: 'Internal Production',
-    description:
-      'Internal operations and student portal platform developed for KeyAbroad Consultants to manage study abroad applications, university matching, counselor task assignments, and document compliance workflows.',
-    problemStatement:
-      'Tracking hundreds of international university applications across visa stages using spreadsheets created high operational latency, lost documentation, and poor student visibility.',
-    highlights: [
-      'Centralized student dossier system tracking university and visa filing milestones.',
-      'Encrypted document vault with time-limited signed URLs and role-based permissions.',
-      'Reduced repetitive counselor follow-up calls by 40% through automated milestone progression.',
-      'Immutable audit trail recording every verification, stage advance, and document note.',
-    ],
-    technologies: [
-      'Next.js',
-      'React',
-      'TypeScript',
-      'Node.js',
-      'PostgreSQL',
-      'Supabase',
-      'Tailwind CSS',
-      'REST APIs',
-    ],
-    githubUrl: 'https://github.com/ranairtaza/keyabroad-platform',
-    previewImageMock: {
-      accentColor: '#A78BFA',
-      routeEndpoint: '/portal/students/dossier-review',
-      terminalSnippet: 'counselor_rbac=ACTIVE • signed_url_expiry=900s • audit_log=SYNCED',
-    },
-    isFeatured: true,
-    caseStudy: {
-      overview:
-        'KeyAbroad 2.0 modernized internal workflows at KeyAbroad Consultants, replacing fragmented spreadsheets and messaging chats with a single verified source of truth.',
-      problemStatement:
-        'International educational admissions require strict compliance, university intake cutoff deadlines, and rigorous document verification. Misplaced papers risked missed student intakes.',
-      architectureNotes: [
-        'Authenticated operations portal built with Next.js App Router and server-side layout guards.',
-        'Role-Based Access Control (RBAC) separating counselors, branch managers, and verification staff.',
-        'Secure object storage with cryptographic signed URL access for sensitive credentials.',
-      ],
-      techStack: [
-        'Next.js App Router',
-        'TypeScript',
-        'Supabase Storage & Auth',
-        'PostgreSQL',
-        'Node.js REST Services',
-        'Tailwind CSS',
-      ],
-      dataFlow: [
-        '1. Intake: Counselor logs student profile, test scores, and target countries.',
-        '2. Verification: Student files transcripts to document vault; verification officer reviews.',
-        '3. Matching: Platform cross-references GPA and intake dates against institution database.',
-        '4. Submission: Team logs university submission identifiers and confirmation codes.',
-        '5. Alerts: Automated notifications alert student and counselor on progress.',
-      ],
-      keyChallenges: [
-        'Managing heavy PDF transcript uploads: Implemented chunked client-side uploads with hash validation.',
-        'Fine-grained role visibility: Built declarative middleware authorization matrices.',
-      ],
-      currentStatus:
-        'Shipped and actively powering internal operations at KeyAbroad Consultants.',
-      futureRoadmap: [
-        'Automated university requirement scrapers.',
-        'Instant WhatsApp Business milestone dispatch.',
-      ],
-    },
-  },
-  {
-    id: 'biometric-attendance',
-    slug: 'biometric-attendance',
-    title: 'Biometric Attendance & HR Integration Engine',
-    subtitle: 'Hardware-to-Cloud Biometric Ingestion & Automated Reconciliation Daemon',
-    category: 'automation',
-    categoryLabel: 'Hardware & Automation',
-    status: 'Production Architecture',
-    statusBadge: 'Production Architecture',
-    description:
-      'Reliable systems integration bridge connecting physical biometric fingerprint/facial recognition hardware to central HR databases, automating punch reconciliation, shifts, and payroll reporting.',
-    problemStatement:
-      'Biometric terminals resided on isolated local network subnets requiring manual USB flash-drive punch exports at month-end, creating high human error rates and delayed payroll.',
-    highlights: [
-      'Engineered continuous Node.js daemon communicating directly over raw TCP/IP socket protocols.',
-      'Built local SQLite fault-tolerant buffer preventing punch event loss during internet downtime.',
-      'Created reconciliation algorithm resolving missing check-outs, shift rotations, and overtime.',
-      'Eliminated manual thumb-drive log extraction, reducing reconciliation time by over 90%.',
-    ],
-    technologies: [
-      'Node.js',
-      'TypeScript',
-      'SQL',
-      'PostgreSQL',
-      'TCP/IP Sockets',
-      'REST APIs',
-      'Next.js',
-      'Tailwind CSS',
-    ],
-    githubUrl: 'https://github.com/ranairtaza/biometric-hr-sync',
-    previewImageMock: {
-      accentColor: '#38BDF8',
-      routeEndpoint: '/daemon/tcp-socket/inbound-punch',
-      terminalSnippet: 'socket=PORT_4370 • protocol=TCP_RAW • buffer_queue=0_PENDING',
-    },
-    isFeatured: true,
-    caseStudy: {
-      overview:
-        'A mission-critical systems engineering initiative bridging physical workplace hardware with cloud business systems without third-party recurring licensing costs.',
-      problemStatement:
-        'Local office biometric hardware could not natively reach cloud databases over encrypted webhooks, necessitating manual CSV export workflows.',
-      architectureNotes: [
-        'Lightweight background service daemon installed on the local network gateway.',
-        'Persistent transaction buffer ensuring zero data loss during WAN connectivity loss.',
-        'Idempotent database sync procedures preventing duplicate punch registration.',
-      ],
-      techStack: [
-        'Node.js (Daemon / Integration Service)',
-        'TypeScript',
-        'PostgreSQL',
-        'Raw TCP/IP Socket Communications',
-        'RESTful API Gateway',
-        'Next.js (Admin Telemetry Dashboard)',
-      ],
-      dataFlow: [
-        '1. Hardware Scan: Employee scans fingerprint/face at physical terminal.',
-        '2. Device Socket: Daemon extracts event timestamp and employee biometric identifier.',
-        '3. Local Cache: Event saved to local disk queue immediately for fault tolerance.',
-        '4. Cloud Dispatch: Worker batch-pushes records to PostgreSQL via TLS REST endpoints.',
-        '5. Reconciliation: Shift rules evaluate punch timestamps for attendance records.',
-      ],
-      keyChallenges: [
-        'Unstable local office internet: Solved with local disk queue and exponential retry backoff.',
-        'Rapid duplicate taps: Built a 60-second de-bouncing deduplication window.',
-      ],
-      currentStatus:
-        'Architecture tested and deployed for production workflow with stable automated daily sync.',
-      futureRoadmap: [
-        'Instant manager Slack alerts for unexpected absence anomalies.',
-        'Cloud-controlled terminal user enrollment sync.',
-      ],
-    },
-  },
-];
+export const PROJECTS: Project[] = PROJECTS_DATA;
 
 export const SKILL_CATEGORIES: SkillCategoryGroup[] = [
   {
     id: 'frontend',
-    title: 'Frontend Engineering',
-    description: 'Component architecture, responsive layouts, and modern web application ecosystems.',
+    title: 'Frontend',
+    description: 'User interface development, client-side state management, and modern component ecosystems.',
     iconName: 'Layout',
     skills: [
-      { name: 'React', level: 'Core', highlight: 'React 19, Custom Hooks, Performance' },
-      { name: 'Next.js (App Router)', level: 'Core', highlight: 'Server Components, Streaming, Routing' },
-      { name: 'TypeScript', level: 'Core', highlight: 'Strict Typing, Generics, Contracts' },
-      { name: 'JavaScript (ESNext)', level: 'Core', highlight: 'Async/Await, Event Loops, Modern Syntax' },
-      { name: 'Tailwind CSS v4', level: 'Core', highlight: 'Custom Design Systems, Dark Mode' },
-      { name: 'HTML5 & Modern Web APIs', level: 'Core', highlight: 'Semantic DOM, ARIA Accessibility' },
+      {
+        name: 'HTML',
+        usageExplanation: 'Semantic DOM architecture, accessible landmarks, form inputs, and SEO-friendly document structures.',
+        highlight: 'Semantic HTML5 & Accessibility',
+        projects: ['keyabroad', 'leadmachine', 'white-stone', 'biometric-attendance'],
+      },
+      {
+        name: 'CSS',
+        usageExplanation: 'Responsive grid & flexbox layouts, Tailwind CSS design systems, dark-mode color tokens, and smooth micro-interactions.',
+        highlight: 'Tailwind CSS & Responsive Layouts',
+        projects: ['keyabroad', 'leadmachine', 'white-stone'],
+      },
+      {
+        name: 'JavaScript',
+        usageExplanation: 'Modern ESNext syntax, asynchronous promises, event loop execution, DOM manipulation, and browser APIs.',
+        highlight: 'ESNext & Async Runtimes',
+        projects: ['keyabroad', 'leadmachine', 'biometric-attendance', 'white-stone'],
+      },
+      {
+        name: 'React',
+        usageExplanation: 'Functional components, hooks, reactive state handling, memoization, and component composition.',
+        highlight: 'React 19 & Custom Hooks',
+        projects: ['keyabroad', 'leadmachine', 'white-stone'],
+      },
+      {
+        name: 'Next.js',
+        usageExplanation: 'App Router architecture, React Server Components, server-side data fetching, dynamic routing, and API route handlers.',
+        highlight: 'Next.js App Router & SSR',
+        projects: ['keyabroad', 'leadmachine', 'white-stone'],
+      },
+      {
+        name: 'TypeScript',
+        usageExplanation: 'Strict type contracts, API request/response validation interfaces, generics, and compile-time error prevention.',
+        highlight: 'Strict Typing & Interface Contracts',
+        projects: ['leadmachine', 'keyabroad', 'biometric-attendance'],
+      },
     ],
   },
   {
     id: 'backend',
-    title: 'Backend Systems',
-    description: 'API design, server runtimes, background processing, and integration services.',
+    title: 'Backend and APIs',
+    description: 'Server runtimes, HTTP endpoint design, business logic implementation, and system integrations.',
     iconName: 'Server',
     skills: [
-      { name: 'Node.js', level: 'Core', highlight: 'Async I/O, Services, Stream Processing' },
-      { name: 'REST APIs', level: 'Core', highlight: 'Resource Modeling, Rate Limiting, Error Handling' },
-      { name: 'Next.js Route Handlers', level: 'Core', highlight: 'Edge Handlers, Webhook Intake' },
-      { name: 'Authentication & RBAC', level: 'Core', highlight: 'Session Tokens, Role Permissions' },
+      {
+        name: 'Node.js',
+        usageExplanation: 'Asynchronous event-driven backend runtimes, background scripts, file stream processing, and server-side utilities.',
+        highlight: 'Async I/O & Server Handlers',
+        projects: ['biometric-attendance', 'keyabroad', 'leadmachine'],
+      },
+      {
+        name: 'REST APIs',
+        usageExplanation: 'Resource-oriented HTTP services, JSON payloads, structured error responses, status codes, and webhook consumers.',
+        highlight: 'Resource Modeling & Webhooks',
+        projects: ['keyabroad', 'leadmachine', 'biometric-attendance'],
+      },
+      {
+        name: 'Server-side application development',
+        usageExplanation: 'Developing secure application routes, authentication verification, session validation, and database operations.',
+        highlight: 'Auth & Server-Side Handlers',
+        projects: ['keyabroad', 'leadmachine'],
+      },
     ],
   },
   {
     id: 'databases',
-    title: 'Databases & Storage',
-    description: 'Relational database modeling, query optimization, and secure data access.',
+    title: 'Databases and data access',
+    description: 'Relational data modeling, data access layers, query structures, and secure data storage.',
     iconName: 'Database',
     skills: [
-      { name: 'PostgreSQL', level: 'Core', highlight: 'Relational Schemas, Constraints, Indexing' },
-      { name: 'Supabase', level: 'Core', highlight: 'Row-Level Security (RLS), Auth, Storage' },
-      { name: 'Prisma ORM', level: 'Core', highlight: 'Type-Safe Queries, Migration Workflows' },
-      { name: 'SQL Query Tuning', level: 'Core', highlight: 'Joins, Aggregations, Transactions' },
+      {
+        name: 'SQL',
+        usageExplanation: 'Writing relational queries, joins, filtering, aggregations, transactional consistency, and data updates.',
+        highlight: 'Relational Queries & Joins',
+        projects: ['keyabroad', 'biometric-attendance', 'leadmachine'],
+      },
+      {
+        name: 'PostgreSQL',
+        usageExplanation: 'Production relational database modeling, relational schemas, constraints, foreign keys, and Row-Level Security policies.',
+        highlight: 'Relational Schemas & RLS',
+        projects: ['leadmachine', 'keyabroad', 'biometric-attendance'],
+      },
+      {
+        name: 'Oracle',
+        usageExplanation: 'Enterprise relational database concepts, schema tables, structured queries, and academic database foundations.',
+        highlight: 'Enterprise Database Concepts',
+        projects: ['biometric-attendance'],
+      },
+      {
+        name: 'Supabase',
+        usageExplanation: 'Managed PostgreSQL infrastructure, authentication, Row-Level Security rule configuration, and secure document storage.',
+        highlight: 'Managed Postgres & File Storage',
+        projects: ['keyabroad', 'leadmachine'],
+      },
+      {
+        name: 'Prisma',
+        usageExplanation: 'Type-safe object-relational mapping, declarative database schemas, relation definitions, and schema migrations.',
+        highlight: 'Type-Safe ORM & Migrations',
+        projects: ['leadmachine'],
+      },
     ],
   },
   {
     id: 'ai-automation',
-    title: 'AI & Automation',
-    description: 'Structured generative AI pipelines, webhook orchestration, and task automation.',
+    title: 'AI and automation',
+    description: 'LLM API integration, structured automated workflows, and operational business process elimination.',
     iconName: 'Workflow',
     skills: [
-      { name: 'AI API Integrations', level: 'Core', highlight: 'Prompt Engineering, Deterministic JSON' },
-      { name: 'Business Automation', level: 'Core', highlight: 'Event-Driven Webhooks, Scheduled Tasks' },
-      { name: 'Multi-Tenant Design', level: 'Advanced', highlight: 'Tenant Partitioning, Resource Isolation' },
-      { name: 'Pipeline Orchestration', level: 'Core', highlight: 'Async Queue Processing, Idempotency' },
+      {
+        name: 'LLM integrations',
+        usageExplanation: 'Calling language model APIs with prompt constraints, temperature control, and deterministic JSON schema extraction.',
+        highlight: 'Structured JSON & Prompts',
+        projects: ['leadmachine'],
+      },
+      {
+        name: 'AI-assisted workflows',
+        usageExplanation: 'Embedding AI assistance into operational pipelines for automated lead triage, summary generation, and task sorting.',
+        highlight: 'Pipeline Enrichment & Triage',
+        projects: ['leadmachine'],
+      },
+      {
+        name: 'Business process automation',
+        usageExplanation: 'Replacing manual data entry and repetitive recordkeeping with event triggers, webhooks, and automated synchronization.',
+        highlight: 'Workflow Digitization & Sync',
+        projects: ['biometric-attendance', 'keyabroad'],
+      },
     ],
   },
   {
-    id: 'infrastructure',
-    title: 'Infrastructure & Tools',
-    description: 'Development tooling, deployment platforms, and hardware protocol bridging.',
-    iconName: 'Network',
-    skills: [
-      { name: 'Git & GitHub', level: 'Core', highlight: 'Trunk Development, Code Review Standards' },
-      { name: 'Vercel Platform', level: 'Core', highlight: 'Edge Deployments, CI/CD Builds, DNS' },
-      { name: 'TCP/IP Sockets', level: 'Core', highlight: 'Raw Socket Protocols, Device Ingestion' },
-      { name: 'Linux / Bash', level: 'Core', highlight: 'Daemon Scripting, System Diagnostics' },
-    ],
-  },
-  {
-    id: 'product-engineering',
-    title: 'Product Engineering',
-    description: 'Architectural discipline, developer experience, and software craftsmanship.',
+    id: 'dev-deployment',
+    title: 'Development and deployment',
+    description: 'Version control discipline, deployment workflows, technical SEO standards, and application quality assurance.',
     iconName: 'ShieldCheck',
     skills: [
-      { name: 'Type Safety & Contracts', level: 'Core', highlight: 'End-to-end interface integrity' },
-      { name: 'Defensive Architecture', level: 'Core', highlight: 'Boundary validation, Fallback states' },
-      { name: 'Observability & Auditing', level: 'Core', highlight: 'Audit logs, Error tracing, Heartbeats' },
-      { name: 'User-Centric Workflows', level: 'Core', highlight: 'Reducing operational cognitive load' },
+      {
+        name: 'Git',
+        usageExplanation: 'Branching, staging, committing, merging, resolving conflicts, and maintaining clean commit histories.',
+        highlight: 'Version Control & Branching',
+        projects: ['leadmachine', 'keyabroad', 'biometric-attendance', 'white-stone'],
+      },
+      {
+        name: 'GitHub',
+        usageExplanation: 'Repository management, pull requests, automated webhooks, release tags, and collaborative code reviews.',
+        highlight: 'Repository & Code Reviews',
+        projects: ['leadmachine', 'keyabroad', 'white-stone'],
+      },
+      {
+        name: 'Vercel',
+        usageExplanation: 'Continuous deployment of Next.js applications, preview environments, domain routing, and serverless hosting.',
+        highlight: 'Edge Hosting & CI/CD',
+        projects: ['leadmachine', 'keyabroad', 'white-stone'],
+      },
+      {
+        name: 'Technical SEO',
+        usageExplanation: 'Implementing semantic metadata tags, OpenGraph previews, canonical URLs, robots.txt, and sitemap generation.',
+        highlight: 'Metadata & Search Crawlability',
+        projects: ['keyabroad', 'white-stone'],
+      },
+      {
+        name: 'Application testing',
+        usageExplanation: 'Testing critical application flows, form validation constraints, API status code contracts, and error states.',
+        highlight: 'Flow Verification & Quality Checks',
+        projects: ['leadmachine', 'keyabroad', 'biometric-attendance'],
+      },
+    ],
+  },
+  {
+    id: 'exploring',
+    title: 'Currently Learning / Exploring',
+    description:
+      'Active areas of ongoing exploration and technical curiosity. Maintained separately to distinguish active learning from established professional proficiency.',
+    iconName: 'Compass',
+    isExploringGroup: true,
+    skills: [
+      {
+        name: 'Python',
+        usageExplanation: 'Studying Python syntax, scripting utilities, data processing libraries, and backend service integration.',
+        highlight: 'Scripting & Data Utilities',
+        isExploring: true,
+      },
+      {
+        name: 'Cybersecurity',
+        usageExplanation: 'Exploring application security fundamentals, zero-trust patterns, defensive input sanitization, and OWASP top risks.',
+        highlight: 'Security Principles & Defense',
+        isExploring: true,
+      },
+      {
+        name: 'Networking',
+        usageExplanation: 'Deepening understanding of TCP/IP protocol layers, socket programming mechanics, routing tables, and DNS flow.',
+        highlight: 'Protocols & Network Sockets',
+        isExploring: true,
+      },
+      {
+        name: 'Cloud computing',
+        usageExplanation: 'Investigating distributed cloud architectures, container fundamentals, and cloud service configuration.',
+        highlight: 'Cloud Architecture Concepts',
+        isExploring: true,
+      },
+      {
+        name: 'DevSecOps',
+        usageExplanation: 'Studying automated dependency auditing, vulnerability screening in CI/CD pipelines, and secure delivery patterns.',
+        highlight: 'Automated Pipeline Security',
+        isExploring: true,
+      },
     ],
   },
 ];
 
 export const JOURNEY_MILESTONES: JourneyMilestone[] = [
+  {
+    id: 'journey-education',
+    type: 'education',
+    title: 'BS Information Technology',
+    organization: 'Undergraduate Degree Program',
+    location: 'Pakistan',
+    period: 'Completed June 2026',
+    badge: 'CGPA 3.1/4.00',
+    summary:
+      'Completed a four-year degree in Information Technology covering foundational computer science, relational database management, computer networks, and software engineering.',
+    scopeOfContribution:
+      'Core academic curriculum focused on systems architecture, data structures, relational query optimization, and networked systems.',
+    outcomes: [
+      'Degree: Bachelor of Science in Information Technology.',
+      'Completed: June 2026 with a verified Cumulative GPA of 3.1 / 4.00.',
+      'Studied core computer science topics including Database Systems, Computer Networks, Software Engineering, and Operating Systems.',
+      'Built a solid analytical foundation applied to real-world software development and socket-based systems.',
+    ],
+    stackTags: ['BS Information Technology', 'RDBMS & SQL', 'Computer Networks', 'Software Engineering', 'System Security'],
+    extensibleDetails: [
+      { label: 'Degree', value: 'BS Information Technology' },
+      { label: 'Completion', value: 'June 2026' },
+      { label: 'CGPA', value: '3.1 / 4.00' },
+      { label: 'Focus Area', value: 'Information Technology & Systems' },
+    ],
+  },
   {
     id: 'journey-keyabroad',
     type: 'experience',
@@ -338,96 +306,239 @@ export const JOURNEY_MILESTONES: JourneyMilestone[] = [
     period: '2024 (Completed)',
     badge: 'Software Development',
     summary:
-      'Engineered internal operational systems, student case management workflows, and hardware biometric data synchronization pipelines.',
+      'Contributed to software development, web application functionality, internal business systems, and hardware data synchronization to modernize manual operations.',
+    scopeOfContribution:
+      'Individual software development contributions included developing web interfaces, implementing administrative dashboard features, constructing a biometric hardware integration bridge, and optimizing technical SEO. Broader educational consulting operations belong to the organization.',
     outcomes: [
-      'Architected KeyAbroad 2.0 student platform, centralizing applications across dozens of international university intakes.',
-      'Constructed the Biometric Attendance & HR Integration engine, automating device punch sync to PostgreSQL.',
-      'Implemented role-based security and encrypted document storage with signed URLs.',
-      'Eliminated manual spreadsheet tracking and month-end attendance collation by 90%.',
+      'Developed web application functionality and internal dashboard views for student application tracking.',
+      'Constructed biometric hardware synchronization engine to bridge physical device punches to a centralized PostgreSQL database.',
+      'Configured cloud database access controls, secure document storage with signed URLs, and authenticated counselor workflows.',
+      'Implemented technical SEO enhancements, metadata optimization, and responsive user interfaces.',
     ],
-    stackTags: ['Next.js', 'TypeScript', 'Node.js', 'PostgreSQL', 'Supabase', 'TCP/IP Sockets', 'Tailwind CSS'],
+    stackTags: ['Next.js', 'React', 'Node.js', 'PostgreSQL', 'Supabase', 'REST APIs', 'Technical SEO', 'Tailwind CSS'],
   },
   {
-    id: 'journey-education',
-    type: 'education',
-    title: 'Bachelor of Science in Information Technology (BS IT)',
-    organization: 'University Degree Program',
-    location: 'Pakistan',
-    period: 'Completed June 2026',
-    badge: 'CGPA 3.13 / 4.00 • June 2026',
+    id: 'journey-saas-experiment',
+    type: 'saas-experiment',
+    title: 'SaaS Product Experimentation — LeadMachine',
+    organization: 'Independent Project (Open Source / Prototype)',
+    location: 'Remote',
+    period: '2024',
+    badge: 'SaaS Architecture Prototype',
     summary:
-      'Rigorous 4-year undergraduate degree establishing solid foundations in computer science, relational databases, network engineering, and information security.',
+      'Engineered an AI-powered lead management prototype to explore multi-tenant data architecture, prompt-engineered scoring pipelines, and clean Next.js App Router interfaces.',
+    scopeOfContribution:
+      'Sole developer responsible for system design, database modeling, Next.js frontend, API endpoints, and LLM structured output parsing.',
     outcomes: [
-      'Graduated with a Cumulative GPA of 3.13 / 4.00 (June 2026).',
-      'Completed in-depth coursework in Database Systems, Computer Networks, Software Engineering, Information Security, and Web Architecture.',
-      'Applied theoretical computer science and networking protocols to real-world software platforms and socket programming.',
+      'Designed multi-tenant relational schemas with organization-scoped data isolation using PostgreSQL and Prisma ORM.',
+      'Integrated LLM endpoints to parse and qualify incoming lead attributes into deterministic JSON responses.',
+      'Built interactive pipeline management dashboards with real-time UI updates and responsive controls.',
     ],
-    stackTags: ['Computer Science', 'RDBMS & SQL', 'Computer Networks', 'Software Architecture', 'Cybersecurity'],
+    stackTags: ['Next.js', 'TypeScript', 'Prisma ORM', 'PostgreSQL', 'LLM Integrations', 'Tailwind CSS'],
+  },
+  {
+    id: 'journey-current-focus',
+    type: 'current-focus',
+    isCurrentFocus: true,
+    title: 'Continuous Technical Learning & Systems Exploration',
+    organization: 'Self-Directed Engineering Focus',
+    location: 'Independent',
+    period: 'Current Focus',
+    badge: 'Undated / Active Focus',
+    summary:
+      'An ongoing, undated learning track focused on expanding practical software engineering capabilities, infrastructure understanding, and systems resilience.',
+    scopeOfContribution:
+      'Active self-study, hands-on experimentation with tools, and building prototype services to broaden technical range.',
+    outcomes: [
+      'Deepening practical knowledge of Python for backend data services and LLM integration tooling.',
+      'Studying cybersecurity fundamentals, secure network architectures, and defensive programming standards.',
+      'Investigating cloud computing concepts, containerization, and reliable serverless deployments.',
+      'Exploring event-driven workflow automation pipelines and API reliability patterns.',
+    ],
+    stackTags: ['Python', 'Cybersecurity', 'Cloud Computing', 'Workflow Automation', 'Networking', 'DevSecOps'],
   },
 ];
 
 export const BEYOND_CODE: BeyondCodeItem[] = [
   {
-    id: 'ai-agents',
-    title: 'Artificial Intelligence & Agents',
-    domain: 'Applied AI',
+    id: 'beyond-ai',
+    title: 'Artificial Intelligence',
+    domain: 'Applied Systems',
     description:
-      'Investigating autonomous AI agents, multi-step tool calling, structured JSON output validation, and local LLM deployment patterns for enterprise automation.',
-    currentNote: 'Benchmarking deterministic schema enforcement and token efficiency.',
+      'Curious about practical applications of language models, prompt structuring, deterministic JSON outputs, and embedding AI assistance into real business software.',
+    currentNote: 'Focusing on reliable prompt constraints and error fallbacks rather than open-ended hype.',
     iconName: 'Cpu',
   },
   {
-    id: 'saas-bootstrapping',
-    title: 'Entrepreneurship & SaaS',
-    domain: 'Business Engineering',
+    id: 'beyond-saas',
+    title: 'SaaS Entrepreneurship',
+    domain: 'Product Strategy',
     description:
-      'Analyzing sustainable bootstrapped software businesses, self-serve onboarding, multi-tenant billing models, and product-led growth mechanics.',
-    currentNote: 'Studying multi-tenant tenancy tradeoffs (isolated schemas vs. shared tables with RLS).',
+      'Interested in how sustainable software products are built and distributed—studying self-serve onboarding, multi-tenant billing models, and solving specific operational pains.',
+    currentNote: 'Analyzing multi-tenant tenancy tradeoffs (isolated schemas vs. shared tables with RLS).',
     iconName: 'Building2',
   },
   {
-    id: 'cybersecurity',
-    title: 'Cybersecurity & Zero-Trust',
-    domain: 'Security',
+    id: 'beyond-security-networking',
+    title: 'Cybersecurity and Networking',
+    domain: 'Infrastructure & Defense',
     description:
-      'Exploring modern authentication paradigms, Row-Level Security, API threat vectors, input sanitization, and cryptographic identity verification.',
-    currentNote: 'Hardening Supabase RLS security policies and preventing privilege escalation vectors.',
+      'Exploring computer networking fundamentals, TCP/IP socket mechanics, identity verification, API attack surfaces, and defensive security measures.',
+    currentNote: 'Gaining an appreciation for zero-trust architectures and Row-Level Security policies.',
     iconName: 'ShieldCheck',
   },
   {
-    id: 'networking',
-    title: 'Networking & Systems',
-    domain: 'Infrastructure',
-    description:
-      'Practical mechanics of connecting physical workplace hardware, IoT devices, and proprietary TCP/UDP protocols to modern cloud databases.',
-    currentNote: 'Developing lightweight edge daemons that buffer event streams during wide-area network drops.',
-    iconName: 'Network',
-  },
-  {
-    id: 'cloud-computing',
+    id: 'beyond-cloud',
     title: 'Cloud Computing',
-    domain: 'Cloud Systems',
+    domain: 'Systems & Hosting',
     description:
-      'Architecting resilient web infrastructure on Vercel and edge compute, utilizing serverless databases, edge caching, and automated CI/CD pipelines.',
-    currentNote: 'Optimizing Next.js partial pre-rendering and asset cache hierarchies.',
+      'Investigating modern cloud platforms, edge compute functions, serverless databases, caching hierarchies, and continuous deployment pipelines.',
+    currentNote: 'Studying how modern edge networks and serverless runtimes scale reliably.',
     iconName: 'Cloud',
   },
   {
-    id: 'automation',
+    id: 'beyond-automation',
     title: 'Workflow Automation',
-    domain: 'Automation',
+    domain: 'Operational Efficiency',
     description:
-      'Transforming high-friction manual business workflows into automated background jobs, event-driven webhooks, and auditable pipelines.',
-    currentNote: 'Designing human-in-the-loop approval queues for automated workflow transitions.',
+      'Drawn to eliminating manual friction in daily operations—connecting webhooks, background tasks, and scheduled jobs to replace error-prone manual spreadsheets.',
+    currentNote: 'Designing automated event sync loops with retry queues for resilient handoffs.',
     iconName: 'Workflow',
   },
   {
-    id: 'fitness',
-    title: 'Fitness & Physical Discipline',
+    id: 'beyond-fitness',
+    title: 'Fitness and Personal Development',
     domain: 'Personal Discipline',
     description:
-      'Consistent physical conditioning, strength training, and endurance as the foundational driver for mental clarity, resilience, and sustained focus.',
-    currentNote: 'Treating physical training as a non-negotiable anchor for engineering focus and long-term stamina.',
+      'Valuing physical fitness, structured training, and consistent personal routines as key ingredients for mental clarity, resilience, and sustained engineering focus.',
+    currentNote: 'Maintaining consistent physical training to balance intense computer problem-solving.',
     iconName: 'Dumbbell',
   },
 ];
+
+export const SERVICES_DATA: ServiceArea[] = [
+  {
+    id: 'business-websites',
+    title: 'Business Websites & Web Applications',
+    badge: 'Web Systems',
+    description:
+      'Performant, responsive web applications engineered with Next.js, React, and modern CSS. Built with semantic SEO, accessible components, and clean client-server data flow.',
+    deliverables: [
+      'Responsive, high-conversion web interfaces',
+      'Client portals & multi-page applications',
+      'Core Web Vitals & performance optimization',
+      'Technical SEO, OpenGraph & semantic metadata',
+    ],
+    suggestedStack: ['Next.js App Router', 'React 19', 'Tailwind CSS', 'TypeScript'],
+    iconName: 'Globe',
+  },
+  {
+    id: 'saas-mvps',
+    title: 'SaaS MVPs & Product Interfaces',
+    badge: 'Product Engineering',
+    description:
+      'Translating product ideas into production-ready software prototypes with modular UI components, secure authentication, and relational data architecture.',
+    deliverables: [
+      'Multi-tenant data modeling & schema architecture',
+      'Session management & role-based access flows',
+      'Interactive product dashboards & onboarding steps',
+      'Billing & subscription interface integration',
+    ],
+    suggestedStack: ['Next.js', 'PostgreSQL', 'Prisma ORM', 'Supabase'],
+    iconName: 'Layers',
+  },
+  {
+    id: 'admin-dashboards',
+    title: 'Admin Dashboards & Internal Tools',
+    badge: 'Operations',
+    description:
+      'Custom operational control panels that eliminate spreadsheet confusion, centralize organization records, and provide clear administrative visibility.',
+    deliverables: [
+      'Operational status monitors & metric widgets',
+      'Filterable data tables with bulk actions & export',
+      'Role-governed CRUD forms & validation schemas',
+      'Activity audit trails & operational tracking',
+    ],
+    suggestedStack: ['React', 'PostgreSQL', 'REST APIs', 'TypeScript'],
+    iconName: 'LayoutDashboard',
+  },
+  {
+    id: 'api-integrations',
+    title: 'API Integrations & Backend Services',
+    badge: 'Backend Architecture',
+    description:
+      'Connecting external services, building resilient HTTP handlers, consuming webhooks, and synchronizing distributed business records.',
+    deliverables: [
+      'RESTful endpoints with strict JSON contracts',
+      'Webhook receivers & idempotent event processors',
+      'Third-party software & cloud storage bridges',
+      'Request sanitization & structured error handling',
+    ],
+    suggestedStack: ['Node.js', 'Next.js Route Handlers', 'TypeScript', 'PostgreSQL'],
+    iconName: 'Cpu',
+  },
+  {
+    id: 'ai-workflows',
+    title: 'AI-Assisted Business Workflows',
+    badge: 'Applied AI',
+    description:
+      'Embedding deterministic language model workflows into practical business operations: prompt structuring, schema validation, and automated record categorization.',
+    deliverables: [
+      'Structured LLM prompts with deterministic JSON outputs',
+      'Automated inquiry triage & content classification',
+      'Pipeline data enrichment & key extraction',
+      'API rate-limit handling & graceful fallback routines',
+    ],
+    suggestedStack: ['LLM APIs', 'Node.js', 'TypeScript', 'Zod / JSON Schema'],
+    iconName: 'Sparkles',
+  },
+];
+
+export const RECRUITER_DOSSIER = {
+  headline: 'Professional Summary for Recruiters & Hiring Managers',
+  summary:
+    'Full-stack developer focused on building reliable web applications, exploring SaaS architectures, and implementing deterministic AI-assisted automation. Strong analytical grounding from BS Information Technology combined with hands-on software development experience at KeyAbroad Consultants.',
+  coreCompetencies: [
+    {
+      area: 'Full-Stack Web Development',
+      detail:
+        'TypeScript, Next.js App Router, React 19, Node.js, and modern CSS/Tailwind design systems with strict adherence to accessibility, type safety, and clean API contracts.',
+    },
+    {
+      area: 'SaaS Product Architecture',
+      detail:
+        'Multi-tenant relational schemas (PostgreSQL, Prisma, Supabase), role-based access control, organization isolation, and responsive product interfaces.',
+    },
+    {
+      area: 'AI Integrations & Business Automation',
+      detail:
+        'Practical LLM API integrations with structured JSON extraction, automated event synchronization, and hardware-to-cloud data bridging.',
+    },
+  ],
+  education: {
+    degree: 'Bachelor of Science in Information Technology',
+    status: 'Completed June 2026',
+    cgpa: '3.1 / 4.00',
+    curriculum:
+      'Relational Database Systems, Computer Networks, Software Engineering, Operating Systems, Systems Architecture.',
+  },
+  verifiedExperience: {
+    role: 'Software Developer',
+    organization: 'KeyAbroad Consultants',
+    location: 'Faisalabad, Pakistan',
+    tenure: '2024 (Completed)',
+    verifiedContributions: [
+      'Developed web application functionality and internal dashboard views for student application tracking.',
+      'Constructed biometric hardware synchronization engine bridging device punches to a centralized PostgreSQL database.',
+      'Configured cloud database access controls, secure document storage with signed URLs, and authenticated counselor workflows.',
+      'Implemented technical SEO enhancements, metadata optimization, and responsive user interfaces.',
+    ],
+  },
+  verifiedProfiles: {
+    github: 'https://github.com/ranairtaza',
+    linkedin: 'https://linkedin.com/in/rana-irtaza-ali-khan-849859227/',
+    booking: 'https://calendar.app.google/c2aHvSbZivHms8St6',
+  },
+  integrityDisclaimer:
+    'RANA.OS adheres to factual engineering integrity. In accordance with strict portfolio standards, no phone numbers, exact employment dates, salary expectations, unverified certifications, or unsupported work authorization claims are displayed.',
+};

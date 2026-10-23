@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Terminal, ArrowLeft } from 'lucide-react';
+import { Terminal, ArrowLeft, FolderGit2 } from 'lucide-react';
 
 export default function NotFound() {
   return (
@@ -17,17 +17,25 @@ export default function NotFound() {
             RANA.OS: Target Node Unreachable
           </h1>
           <p className="text-xs text-slate-400 font-mono">
-            The requested URI path is not registered in the RANA.OS routing table.
+            The requested project slug or URI path is not registered in the RANA.OS routing table.
           </p>
         </div>
 
-        <div className="pt-2">
+        <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
           <Link
             href="/"
-            className="inline-flex items-center space-x-2 px-5 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-[#030712] font-semibold text-xs tracking-wider uppercase transition-all shadow-md shadow-cyan-500/20"
+            className="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-5 py-2.5 rounded-xl bg-cyan-400 hover:bg-cyan-300 text-[#070a12] font-semibold text-xs tracking-wider uppercase transition-all shadow-md shadow-cyan-500/20"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
-            <span>Return to System Root</span>
+            <span>System Root</span>
+          </Link>
+
+          <Link
+            href="/#projects"
+            className="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-4 py-2.5 rounded-xl glass-panel hover:bg-white/[0.08] text-slate-200 text-xs font-mono border border-white/10 transition-all"
+          >
+            <FolderGit2 className="w-3.5 h-3.5 text-cyan-400" />
+            <span>All Projects</span>
           </Link>
         </div>
       </div>

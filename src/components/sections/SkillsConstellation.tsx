@@ -8,177 +8,192 @@ import { usePortfolio } from '../../context/PortfolioContext';
 import {
   Cpu,
   Database,
-  Network,
   Workflow,
   ShieldCheck,
   Server,
   Layout,
-  CheckCircle2,
-  FolderGit2,
+  Compass,
   ArrowRight,
-  Sparkles,
   X,
+  Layers,
+  Table,
+  Network,
+  Info,
 } from 'lucide-react';
+import { SkillItem } from '../../types/portfolio';
 
 const categoryIcons: Record<string, React.ReactNode> = {
   Layout: <Layout className="w-4 h-4 text-cyan-300" />,
   Server: <Server className="w-4 h-4 text-sky-300" />,
   Database: <Database className="w-4 h-4 text-indigo-300" />,
   Workflow: <Workflow className="w-4 h-4 text-violet-300" />,
-  Network: <Network className="w-4 h-4 text-teal-300" />,
   ShieldCheck: <ShieldCheck className="w-4 h-4 text-emerald-300" />,
-};
-
-// Map skills to practical project usages
-const SKILL_PROJECT_APPLICATION: Record<string, Record<string, string>> = {
-  'Next.js (App Router)': {
-    leadmachine: 'Server Components, dynamic route handlers, and multi-tenant subpath routing.',
-    keyabroad: 'Authenticated operations portal layout, SSR student dossier view, and server-side RBAC.',
-    'biometric-attendance': 'Administrative hardware telemetry dashboard and live socket monitor.',
-  },
-  React: {
-    leadmachine: 'Interactive lead staging kanban and real-time qualification feeds.',
-    keyabroad: 'Interactive dossier review forms, multi-file document uploaders, and status trackers.',
-  },
-  TypeScript: {
-    leadmachine: 'Strict end-to-end API payloads, Prisma schemas, and LLM structured JSON types.',
-    keyabroad: 'Role matrices, student intake models, and secure document payload signatures.',
-    'biometric-attendance': 'TCP packet buffer types, hardware response serialization, and reconciliation engine.',
-  },
-  'Tailwind CSS v4': {
-    leadmachine: 'Custom dark-mode glassmorphic control panels and high-density data tables.',
-    keyabroad: 'Clean internal admin layouts optimized for high-volume counselor workflows.',
-    'biometric-attendance': 'Compact telemetry views and event status indicators.',
-  },
-  'Node.js': {
-    keyabroad: 'Document processing services, token issuance, and background notification workers.',
-    'biometric-attendance': 'Persistent TCP daemon receiving raw hardware biometric sockets on local network.',
-  },
-  'REST APIs': {
-    leadmachine: 'Webhook intake endpoints and tenant lead ingestion routes.',
-    keyabroad: 'Secured student application and counselor management REST endpoints.',
-    'biometric-attendance': 'Cloud sync API for encrypted punch batching from on-premise daemon.',
-  },
-  PostgreSQL: {
-    leadmachine: 'Multi-tenant database schema with strict Row-Level Security (RLS) isolation.',
-    keyabroad: 'Relational data store tracking university cutoffs, applications, and student dossiers.',
-    'biometric-attendance': 'Centralized enterprise attendance database storing timecard punches and shifts.',
-  },
-  Supabase: {
-    leadmachine: 'Database hosting, Row-Level Security policy enforcement, and authentication.',
-    keyabroad: 'Object storage for encrypted student transcript files and temporary signed URLs.',
-  },
-  'Prisma ORM': {
-    leadmachine: 'Strict relational modeling, type-safe database queries, and automatic migrations.',
-  },
-  'AI API Integrations': {
-    leadmachine: 'Prompt-engineered lead scoring pipelines with deterministic JSON schema validation.',
-  },
-  'Business Automation': {
-    leadmachine: 'Automated qualification pipelines and lead sequence dispatch triggers.',
-    'biometric-attendance': 'Automated punch-to-payroll reconciliation reducing manual collation by 90%.',
-  },
-  'Multi-Tenant Design': {
-    leadmachine: 'Multi-tenant schema partitioning with organization-scoped data isolation.',
-  },
-  'TCP/IP Sockets': {
-    'biometric-attendance': 'Raw bidirectional socket communications with biometric terminal hardware.',
-  },
-  'Authentication & RBAC': {
-    leadmachine: 'Tenant-scoped session tokens and administrative role controls.',
-    keyabroad: 'Granular permissions differentiating counselors, verification officers, and directors.',
-  },
-  'Git & GitHub': {
-    leadmachine: 'Version control, atomic commits, and automated deployment triggers.',
-    keyabroad: 'Feature branches, issue tracking, and collaborative internal code reviews.',
-    'biometric-attendance': 'Daemon build management and deployment automation.',
-  },
-  'Vercel Platform': {
-    leadmachine: 'Edge function execution, serverless Next.js hosting, and automated preview branches.',
-    keyabroad: 'Production cloud hosting with custom domain configuration and zero downtime.',
-  },
+  Compass: <Compass className="w-4 h-4 text-amber-300" />,
 };
 
 export default function SkillsConstellation() {
   const { selectedSkill, setSelectedSkill, isReducedMotion } = usePortfolio();
-  const [activeSkillHover, setActiveSkillHover] = useState<string | null>(null);
+  const [selectedProjectFilter, setSelectedProjectFilter] = useState<string | null>(null);
+  const [viewMode, setViewMode] = useState<'constellation' | 'accessible-grid'>('constellation');
+  const [hoveredSkill, setHoveredSkill] = useState<string | null>(null);
 
-  const currentSkill = selectedSkill || activeSkillHover || 'Next.js (App Router)';
+  // Default to Next.js or selected skill
+  const activeSkillName = selectedSkill || hoveredSkill || 'Next.js';
 
-  // Find all projects that use the selected skill
-  const matchingProjects = PROJECTS.filter((proj) => {
-    const explicitMap = SKILL_PROJECT_APPLICATION[currentSkill];
-    if (explicitMap && explicitMap[proj.id]) return true;
+  // Find the active skill object across all categories
+  let activeSkillObj: (SkillItem & { categoryTitle: string; isExploringGroup?: boolean }) | null = null;
+  for (const cat of SKILL_CATEGORIES) {
+    const found = cat.skills.find((s) => s.name === activeSkillName);
+    if (found) {
+      activeSkillObj = {
+        ...found,
+        categoryTitle: cat.title,
+        isExploringGroup: cat.isExploringGroup,
+      };
+      break;
+    }
+  }
 
-    const lower = currentSkill.toLowerCase();
+  // Related projects for active skill
+  const relatedProjects = PROJECTS.filter((proj) => {
+    if (activeSkillObj?.projects?.includes(proj.id) || activeSkillObj?.projects?.includes(proj.slug)) {
+      return true;
+    }
+    const lower = activeSkillName.toLowerCase();
     return proj.technologies.some((tech) => {
       const techLower = tech.toLowerCase();
-      return (
-        techLower.includes(lower) ||
-        lower.includes(techLower) ||
-        (lower.includes('next.js') && techLower.includes('next.js')) ||
-        (lower.includes('ai') && techLower.includes('ai')) ||
-        (lower.includes('sql') && (techLower.includes('sql') || techLower.includes('postgresql')))
-      );
+      return techLower.includes(lower) || lower.includes(techLower);
     });
   });
 
-  const getProjectSpecificContext = (projectId: string) => {
-    const appMap = SKILL_PROJECT_APPLICATION[currentSkill];
-    if (appMap && appMap[projectId]) {
-      return appMap[projectId];
-    }
-    return 'Integrated as a core engineering technology within the system architecture.';
+  // Check if a skill belongs to the selected project filter
+  const isSkillConnectedToSelectedProject = (skill: SkillItem) => {
+    if (!selectedProjectFilter) return false;
+    const proj = PROJECTS.find((p) => p.id === selectedProjectFilter);
+    if (!proj) return false;
+
+    if (skill.projects?.includes(proj.id) || skill.projects?.includes(proj.slug)) return true;
+    const lower = skill.name.toLowerCase();
+    return proj.technologies.some((tech) => {
+      const techLower = tech.toLowerCase();
+      return techLower.includes(lower) || lower.includes(techLower);
+    });
   };
 
   return (
     <section
       id="skills"
-      aria-label="Technical Skills Constellation"
+      aria-label="Interactive Skills Constellation and Technology Map"
       className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-white/[0.08]"
     >
       <div className="space-y-10">
-        {/* Header */}
+        {/* Header & Controls */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="space-y-3">
             <div className="inline-flex items-center space-x-2 text-xs font-mono tracking-wider uppercase text-cyan-300">
               <Cpu className="w-3.5 h-3.5" />
-              <span>03 // Skills Constellation & Project Graph</span>
+              <span>03 // Interactive Technical Skills Constellation</span>
             </div>
             <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white">
               Skills Constellation
             </h2>
-            <p className="text-sm sm:text-base text-slate-400 max-w-2xl">
-              Technologies organized by architectural domain. Click any technology below to see
-              how it is practically deployed across concrete production and prototype systems.
+            <p className="text-sm sm:text-base text-slate-400 max-w-2xl leading-relaxed">
+              An interactive map of engineering technologies organized by functional category.
+              Select any skill to inspect verified project applications, or select a project to highlight its associated stack.
             </p>
           </div>
 
-          {/* Quick Info Chip */}
-          <div className="hidden sm:inline-flex items-center space-x-2 px-3 py-1.5 rounded-full bg-surface-primary border border-cyan-400/30 text-xs font-mono text-slate-300">
-            <Sparkles className="w-3.5 h-3.5 text-cyan-300" />
-            <span>Click any tech to inspect project usage</span>
+          {/* View Toggle: Visual Constellation vs. Accessible Grid */}
+          <div className="flex items-center space-x-2 bg-surface-primary p-1 rounded-xl border border-white/[0.08] self-start md:self-auto">
+            <button
+              onClick={() => setViewMode('constellation')}
+              className={`flex items-center space-x-2 px-3 py-1.5 rounded-lg text-xs font-mono transition-all ${
+                viewMode === 'constellation'
+                  ? 'bg-cyan-300 text-[#070a12] font-semibold shadow'
+                  : 'text-slate-400 hover:text-white'
+              }`}
+              aria-pressed={viewMode === 'constellation'}
+            >
+              <Network className="w-3.5 h-3.5" />
+              <span>Constellation View</span>
+            </button>
+            <button
+              onClick={() => setViewMode('accessible-grid')}
+              className={`flex items-center space-x-2 px-3 py-1.5 rounded-lg text-xs font-mono transition-all ${
+                viewMode === 'accessible-grid'
+                  ? 'bg-cyan-300 text-[#070a12] font-semibold shadow'
+                  : 'text-slate-400 hover:text-white'
+              }`}
+              aria-pressed={viewMode === 'accessible-grid'}
+            >
+              <Table className="w-3.5 h-3.5" />
+              <span>Accessible Table</span>
+            </button>
           </div>
         </div>
 
-        {/* Dynamic Project Link Inspector Banner */}
-        <div className="rounded-2xl glass-panel border border-cyan-400/40 p-5 sm:p-6 bg-gradient-to-r from-cyan-950/30 via-slate-900/60 to-violet-950/30 shadow-xl shadow-cyan-950/20 space-y-4">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-white/[0.08]">
-            <div className="flex items-center space-x-3">
-              <span className="p-2 rounded-lg bg-cyan-500/20 text-cyan-300 border border-cyan-400/30">
-                <FolderGit2 className="w-4 h-4" />
-              </span>
-              <div>
-                <div className="text-[11px] font-mono text-cyan-400 uppercase tracking-wider">
-                  Technology Connected To Projects
-                </div>
-                <div className="text-base sm:text-lg font-bold text-white flex items-center space-x-2">
-                  <span>{currentSkill}</span>
-                  <span className="text-xs font-mono font-normal text-slate-400">
-                    ({matchingProjects.length} {matchingProjects.length === 1 ? 'project' : 'projects'})
+        {/* Bi-Directional Highlight Filter Bar: Projects Hub */}
+        <div className="p-4 sm:p-5 rounded-2xl glass-panel border border-white/[0.08] flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-surface-primary/60">
+          <div className="flex items-center space-x-2 text-xs font-mono text-slate-300">
+            <Layers className="w-4 h-4 text-cyan-300 shrink-0" />
+            <span className="font-semibold text-white">Project Highlight Filter:</span>
+            <span className="text-slate-400 hidden sm:inline">Select a project to reveal its technology stack:</span>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2">
+            {PROJECTS.map((p) => {
+              const isSelected = selectedProjectFilter === p.id;
+              return (
+                <button
+                  key={p.id}
+                  onClick={() =>
+                    setSelectedProjectFilter(isSelected ? null : p.id)
+                  }
+                  className={`px-2.5 py-1 rounded-lg text-xs font-mono transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 ${
+                    isSelected
+                      ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-400/50 shadow-sm'
+                      : 'bg-white/[0.04] text-slate-300 hover:text-white border border-white/[0.06] hover:border-cyan-400/30'
+                  }`}
+                >
+                  {p.title}
+                </button>
+              );
+            })}
+            {selectedProjectFilter && (
+              <button
+                onClick={() => setSelectedProjectFilter(null)}
+                className="px-2 py-1 text-slate-400 hover:text-white text-xs font-mono inline-flex items-center space-x-1"
+                title="Clear project filter"
+              >
+                <X className="w-3 h-3" />
+                <span>Clear</span>
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Active Technology Inspector Callout Banner */}
+        <div className="rounded-2xl glass-panel border border-cyan-400/30 p-5 sm:p-6 bg-gradient-to-r from-cyan-950/30 via-slate-900/70 to-violet-950/30 shadow-xl shadow-cyan-950/20 space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 pb-3 border-b border-white/[0.08]">
+            <div className="space-y-1">
+              <div className="flex items-center space-x-2">
+                <span className="px-2 py-0.5 rounded text-[10px] font-mono uppercase bg-cyan-950/80 text-cyan-300 border border-cyan-800/50">
+                  {activeSkillObj?.categoryTitle || 'Engineering Technology'}
+                </span>
+                {activeSkillObj?.isExploring && (
+                  <span className="px-2 py-0.5 rounded text-[10px] font-mono uppercase bg-amber-950/80 text-amber-300 border border-amber-800/50">
+                    Currently Learning / Exploring
                   </span>
-                </div>
+                )}
               </div>
+              <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight flex items-center space-x-2">
+                <span>{activeSkillName}</span>
+                {activeSkillObj?.highlight && (
+                  <span className="text-xs font-mono font-normal text-slate-400">
+                    — {activeSkillObj.highlight}
+                  </span>
+                )}
+              </h3>
             </div>
 
             {selectedSkill && (
@@ -193,127 +208,255 @@ export default function SkillsConstellation() {
             )}
           </div>
 
-          {/* Connected Projects Cards */}
-          <AnimatePresence mode="wait">
+          {/* Usage Explanation */}
+          <div className="space-y-2">
+            <div className="flex items-center space-x-1.5 text-xs font-mono text-cyan-300 uppercase tracking-wider">
+              <Info className="w-3.5 h-3.5" />
+              <span>How This Technology Is Used</span>
+            </div>
+            <p className="text-xs sm:text-sm text-slate-200 leading-relaxed font-sans bg-surface-primary/60 p-3.5 rounded-xl border border-white/[0.06]">
+              {activeSkillObj?.usageExplanation ||
+                'Applied as a foundational engineering standard in full-stack architecture, clean code structure, and reliable application execution.'}
+            </p>
+          </div>
+
+          {/* Associated Project Links */}
+          <div className="space-y-2 pt-1">
+            <span className="text-[11px] font-mono uppercase text-slate-400 block font-semibold">
+              Associated Verified Projects ({relatedProjects.length})
+            </span>
+            {relatedProjects.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                {relatedProjects.map((p) => (
+                  <div
+                    key={p.id}
+                    className="p-3.5 rounded-xl bg-surface-primary border border-white/[0.08] hover:border-cyan-400/40 transition-all flex flex-col justify-between space-y-2"
+                  >
+                    <div>
+                      <div className="flex items-center justify-between text-[10px] font-mono text-slate-400">
+                        <span>{p.categoryLabel}</span>
+                        <span className="text-cyan-300">{p.statusBadge}</span>
+                      </div>
+                      <h4 className="font-bold text-white text-sm mt-1">{p.title}</h4>
+                      <p className="text-xs text-slate-400 line-clamp-2 mt-1">{p.subtitle}</p>
+                    </div>
+                    <Link
+                      href={`/projects/${p.slug}`}
+                      className="inline-flex items-center space-x-1 text-xs font-semibold text-cyan-300 hover:text-cyan-200 transition-colors pt-1"
+                    >
+                      <span>View Project Study</span>
+                      <ArrowRight className="w-3 h-3" />
+                    </Link>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-xs font-mono text-slate-400">
+                {activeSkillObj?.isExploring
+                  ? 'Currently in active exploration mode. Kept distinct from deployed client and production systems.'
+                  : 'Integrated across cross-functional full-stack workflows.'}
+              </p>
+            )}
+          </div>
+        </div>
+
+        {/* View Mode Content: Constellation vs. Accessible Table */}
+        <AnimatePresence mode="wait">
+          {viewMode === 'constellation' ? (
             <motion.div
-              key={currentSkill}
+              key="constellation"
               initial={{ opacity: isReducedMotion ? 1 : 0, y: isReducedMotion ? 0 : 8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: isReducedMotion ? 1 : 0, y: isReducedMotion ? 0 : -8 }}
-              transition={{ duration: 0.2 }}
+              transition={{ duration: 0.25 }}
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
             >
-              {matchingProjects.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {matchingProjects.map((project) => (
-                    <div
-                      key={project.id}
-                      className="p-4 rounded-xl bg-surface-primary/80 border border-white/[0.08] hover:border-cyan-300/40 transition-all flex flex-col justify-between space-y-3"
-                    >
-                      <div className="space-y-1.5">
-                        <div className="flex items-center justify-between">
-                          <span className="text-[10px] font-mono uppercase text-slate-400">
-                            {project.categoryLabel}
-                          </span>
-                          <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-cyan-950/60 text-cyan-300 border border-cyan-800/40">
-                            {project.statusBadge}
-                          </span>
+            {SKILL_CATEGORIES.map((category) => {
+              const isExploringGroup = category.isExploringGroup;
+
+              return (
+                <div
+                  key={category.id}
+                  className={`p-6 rounded-2xl glass-panel border transition-all duration-300 flex flex-col justify-between space-y-4 hover:shadow-xl ${
+                    isExploringGroup
+                      ? 'border-amber-500/30 hover:border-amber-400/50 bg-gradient-to-b from-amber-950/10 to-transparent'
+                      : 'border-white/[0.08] hover:border-cyan-300/40 hover:shadow-cyan-950/20'
+                  }`}
+                >
+                  <div className="space-y-3">
+                    {/* Category Header */}
+                    <div className="flex items-center justify-between pb-3 border-b border-white/[0.06]">
+                      <div className="flex items-center space-x-2.5">
+                        <div
+                          className={`p-2 rounded-lg bg-surface-primary border ${
+                            isExploringGroup ? 'border-amber-400/30' : 'border-white/[0.08]'
+                          }`}
+                        >
+                          {categoryIcons[category.iconName] || <Cpu className="w-4 h-4 text-cyan-300" />}
                         </div>
-                        <h4 className="font-bold text-white text-sm">{project.title}</h4>
-                        <p className="text-xs text-slate-300 line-clamp-2 leading-relaxed">
-                          {getProjectSpecificContext(project.id)}
-                        </p>
+                        <div>
+                          <h3 className="font-bold text-white text-base leading-snug">
+                            {category.title}
+                          </h3>
+                        </div>
                       </div>
-
-                      <Link
-                        href={`/projects/${project.slug}`}
-                        className="inline-flex items-center space-x-1.5 text-xs font-semibold text-cyan-300 hover:text-cyan-200 transition-colors pt-1"
-                      >
-                        <span>Read Architecture Case Study</span>
-                        <ArrowRight className="w-3.5 h-3.5" />
-                      </Link>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="text-xs font-mono text-slate-400 py-2">
-                  Foundational skill utilized across full-stack systems engineering and architectural standards.
-                </div>
-              )}
-            </motion.div>
-          </AnimatePresence>
-        </div>
-
-        {/* 6 Categorized Technology Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {SKILL_CATEGORIES.map((category) => (
-            <div
-              key={category.id}
-              className="p-6 rounded-2xl glass-panel border border-white/[0.08] hover:border-cyan-300/40 transition-all duration-300 hover:shadow-xl hover:shadow-cyan-950/20 flex flex-col justify-between space-y-4"
-            >
-              <div className="space-y-3">
-                {/* Header */}
-                <div className="flex items-center justify-between pb-3 border-b border-white/[0.06]">
-                  <div className="flex items-center space-x-2.5">
-                    <div className="p-2 rounded-lg bg-surface-primary border border-white/[0.08]">
-                      {categoryIcons[category.iconName] || <Cpu className="w-4 h-4 text-cyan-300" />}
-                    </div>
-                    <h3 className="font-bold text-white text-base">
-                      {category.title}
-                    </h3>
-                  </div>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.05] text-slate-400 border border-white/10 uppercase">
-                    {category.skills.length} techs
-                  </span>
-                </div>
-
-                <p className="text-xs text-slate-400 leading-relaxed font-sans">
-                  {category.description}
-                </p>
-
-                {/* Skills List in Card */}
-                <div className="space-y-2 pt-2">
-                  {category.skills.map((skill, idx) => {
-                    const isSelected = selectedSkill === skill.name || currentSkill === skill.name;
-
-                    return (
-                      <button
-                        key={idx}
-                        onClick={() => setSelectedSkill(skill.name)}
-                        onMouseEnter={() => setActiveSkillHover(skill.name)}
-                        onMouseLeave={() => setActiveSkillHover(null)}
-                        className={`w-full text-left p-2.5 rounded-xl transition-all flex items-center justify-between focus:outline-none focus-visible:ring-1 focus-visible:ring-cyan-300 ${
-                          isSelected
-                            ? 'bg-cyan-500/15 border border-cyan-400/50 shadow-sm shadow-cyan-500/20'
-                            : 'bg-surface-primary/70 border border-white/[0.05] hover:border-cyan-300/30 hover:bg-white/[0.03]'
+                      <span
+                        className={`text-[10px] font-mono px-2 py-0.5 rounded border uppercase ${
+                          isExploringGroup
+                            ? 'bg-amber-950/60 text-amber-300 border-amber-800/40'
+                            : 'bg-white/[0.05] text-slate-400 border-white/10'
                         }`}
                       >
-                        <div className="flex items-center space-x-2">
-                          <CheckCircle2
-                            className={`w-3.5 h-3.5 shrink-0 transition-colors ${
-                              isSelected ? 'text-cyan-300' : 'text-slate-500'
-                            }`}
-                          />
-                          <span
-                            className={`text-xs font-semibold transition-colors ${
-                              isSelected ? 'text-cyan-200' : 'text-slate-200'
+                        {category.skills.length} techs
+                      </span>
+                    </div>
+
+                    <p className="text-xs text-slate-400 leading-relaxed font-sans min-h-[36px]">
+                      {category.description}
+                    </p>
+
+                    {/* Interactive Skills Node List */}
+                    <div className="space-y-2 pt-2">
+                      {category.skills.map((skill, idx) => {
+                        const isSelected = activeSkillName === skill.name;
+                        const isConnected = isSkillConnectedToSelectedProject(skill);
+
+                        return (
+                          <button
+                            key={idx}
+                            onClick={() => setSelectedSkill(skill.name)}
+                            onMouseEnter={() => setHoveredSkill(skill.name)}
+                            onMouseLeave={() => setHoveredSkill(null)}
+                            aria-label={`Select skill: ${skill.name}`}
+                            className={`w-full text-left p-2.5 rounded-xl transition-all flex items-center justify-between focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 ${
+                              isSelected
+                                ? 'bg-cyan-500/20 border border-cyan-400/60 shadow-md shadow-cyan-500/20'
+                                : isConnected
+                                ? 'bg-cyan-950/40 border border-cyan-400/40 text-cyan-200'
+                                : 'bg-surface-primary/70 border border-white/[0.05] hover:border-cyan-300/30 hover:bg-white/[0.04]'
                             }`}
                           >
-                            {skill.name}
-                          </span>
-                        </div>
-                        {skill.highlight && (
-                          <span className="text-[10px] font-mono text-slate-400 truncate max-w-[130px]">
-                            {skill.highlight}
-                          </span>
-                        )}
-                      </button>
-                    );
-                  })}
+                            <div className="flex items-center space-x-2.5 min-w-0">
+                              <span
+                                className={`w-2 h-2 rounded-full shrink-0 transition-colors ${
+                                  isSelected
+                                    ? 'bg-cyan-300 ring-4 ring-cyan-400/30'
+                                    : isConnected
+                                    ? 'bg-cyan-400'
+                                    : isExploringGroup
+                                    ? 'bg-amber-400/60'
+                                    : 'bg-slate-500'
+                                }`}
+                              />
+                              <span
+                                className={`text-xs font-semibold truncate transition-colors ${
+                                  isSelected
+                                    ? 'text-cyan-200'
+                                    : isConnected
+                                    ? 'text-cyan-300'
+                                    : 'text-slate-200'
+                                }`}
+                              >
+                                {skill.name}
+                              </span>
+                            </div>
+
+                            {skill.highlight && (
+                              <span className="text-[10px] font-mono text-slate-400 truncate max-w-[130px] ml-2 shrink-0">
+                                {skill.highlight}
+                              </span>
+                            )}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
                 </div>
+              );
+            })}
+            </motion.div>
+          ) : (
+            /* Accessible Table / Structured Grid View */
+            <motion.div
+              key="accessible-grid"
+              initial={{ opacity: isReducedMotion ? 1 : 0, y: isReducedMotion ? 0 : 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: isReducedMotion ? 1 : 0, y: isReducedMotion ? 0 : -8 }}
+              transition={{ duration: 0.25 }}
+              className="rounded-2xl glass-panel border border-white/[0.08] overflow-hidden shadow-2xl"
+            >
+              <div className="p-4 bg-surface-secondary border-b border-white/[0.08] flex items-center justify-between">
+                <span className="text-xs font-mono uppercase tracking-wider text-cyan-300 font-semibold">
+                  Accessible Skills Inventory &amp; Practical Application Table
+                </span>
+                <span className="text-[11px] font-mono text-slate-400">
+                  Sorted by Architectural Category
+                </span>
               </div>
-            </div>
-          ))}
-        </div>
+
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-xs font-sans">
+                  <thead className="bg-surface-primary border-b border-white/[0.08] text-slate-300 font-mono text-[11px]">
+                    <tr>
+                      <th className="py-3 px-4">Technology</th>
+                      <th className="py-3 px-4">Category</th>
+                      <th className="py-3 px-4">Usage &amp; Practical Deployment</th>
+                      <th className="py-3 px-4">Status / Projects</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-white/[0.06] text-slate-300">
+                    {SKILL_CATEGORIES.flatMap((category) =>
+                      category.skills.map((skill) => {
+                        const isSelected = activeSkillName === skill.name;
+                        return (
+                          <tr
+                            key={skill.name}
+                            onClick={() => setSelectedSkill(skill.name)}
+                            className={`cursor-pointer transition-colors ${
+                              isSelected
+                                ? 'bg-cyan-500/15 text-white'
+                                : 'hover:bg-white/[0.03]'
+                            }`}
+                          >
+                            <td className="py-3 px-4 font-semibold text-white whitespace-nowrap">
+                              <div className="flex items-center space-x-2">
+                                <span
+                                  className={`w-1.5 h-1.5 rounded-full ${
+                                    category.isExploringGroup ? 'bg-amber-400' : 'bg-cyan-300'
+                                  }`}
+                                />
+                                <span>{skill.name}</span>
+                              </div>
+                            </td>
+                            <td className="py-3 px-4 font-mono text-[11px] text-slate-400 whitespace-nowrap">
+                              {category.title}
+                            </td>
+                            <td className="py-3 px-4 max-w-md text-slate-300 leading-relaxed">
+                              {skill.usageExplanation}
+                            </td>
+                            <td className="py-3 px-4 whitespace-nowrap font-mono text-[11px]">
+                              {category.isExploringGroup ? (
+                                <span className="px-2 py-0.5 rounded bg-amber-950/60 text-amber-300 border border-amber-800/40">
+                                  Exploring
+                                </span>
+                              ) : skill.projects && skill.projects.length > 0 ? (
+                                <span className="px-2 py-0.5 rounded bg-cyan-950/60 text-cyan-300 border border-cyan-800/40">
+                                  {skill.projects.length} Verified {skill.projects.length === 1 ? 'Project' : 'Projects'}
+                                </span>
+                              ) : (
+                                <span className="text-slate-500">Core Stack</span>
+                              )}
+                            </td>
+                          </tr>
+                        );
+                      })
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </section>
   );

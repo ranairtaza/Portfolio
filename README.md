@@ -47,12 +47,18 @@ Rather than relying on generic templates, **RANA.OS** is built as an interactive
      - **KeyAbroad 2.0**: Internal operations platform & student application tracking engine for KeyAbroad Consultants.
      - **Biometric Attendance & HR Integration Engine**: Production hardware-to-cloud bridge syncing biometric fingerprint/face recognition devices to PostgreSQL.
    - **Skills Constellation**: Interactive technology matrix with node inspector showing real-world project links.
-   - **Timeline**: Verified professional software engineering at KeyAbroad Consultants & BS Information Technology degree (Completed June 2026, CGPA 3.10 / 4.00).
-   - **Tech Radar**: Active explorations across AI agents, SaaS models, cybersecurity, networking, and cloud architectures.
-   - **Communications Gateway**: Validated contact form, direct one-click email copy, and operational parameters.
+   - **Timeline**: Verified professional software engineering at KeyAbroad Consultants & BS Information Technology degree (Completed June 2026, CGPA 3.1/4.00).
+    - **Tech Radar**: Active explorations across AI agents, SaaS models, cybersecurity, networking, and cloud architectures.
+    - **What I Can Help Build (Services & Client Conversion)**: 5 core engineering service areas (Business Websites, SaaS MVPs, Admin Dashboards, API Integrations, AI Workflows) with a transparent 3-step evaluation path (*Discover Projects → Verify Case Study → Connect*).
+    - **Communications Gateway (Contact & Conversion)**:
+      - Three tailored pathways: *Career opportunities* (Recruiters & hiring managers), *Software development projects* (Clients & businesses), and *Collaboration* (Founders & developers).
+      - Recruiter-Friendly Dossier with concise professional summary, core competencies, verified KeyAbroad responsibilities, and BS IT credentials.
+      - Verified destinations: GitHub (`ranairtaza`), LinkedIn, and Google Calendar Booking (`calendar.app.google`).
+      - Client-side & server-side validated contact form with honeypot bot trap, sliding-window IP rate limiting, and transparent fallback mode when no third-party email provider is provisioned.
+      - Safe external link attributes (`rel="noopener noreferrer"`).
 
 3. **Command Palette (`Ctrl + K` / `Cmd + K`)**:
-   - Fully keyboard-accessible dialog for quick navigation, project switching, graphics engine toggling, and copying contact info.
+   - Fully keyboard-accessible dialog for quick navigation, project switching, graphics engine toggling, Google Calendar booking, and direct contact.
 
 4. **Technical Case Study Routes (`/projects/[slug]`)**:
    - Dedicated routes for `/projects/leadmachine`, `/projects/keyabroad`, and `/projects/biometric-attendance`.
@@ -63,6 +69,28 @@ Rather than relying on generic templates, **RANA.OS** is built as an interactive
    - Full OpenGraph and Twitter card defaults.
    - `Person` & `WebSite` JSON-LD structured data embedded.
    - Accessible ARIA dialog semantics, high contrast ratios, and keyboard focus states.
+
+---
+
+## ⚙️ Environment Configuration & Résumé Setup
+
+See `.env.example` for the complete list of environment variables:
+
+```bash
+# 1. Contact Email Configuration (Client-Visible)
+# Direct email actions (mailto links, copy-to-clipboard) remain hidden until a real, verified email is supplied here.
+NEXT_PUBLIC_CONTACT_EMAIL=
+
+# 2. Résumé Asset Configuration
+# Place your real, verified PDF at public/resume.pdf and enable this flag.
+# If no PDF exists, the download action remains completely hidden in the UI.
+NEXT_PUBLIC_HAS_RESUME=false
+
+# 3. Server-Side Automated Form Dispatch (Optional)
+# If provided, /api/contact sends emails via Resend. If omitted, the form automatically offers honest fallback options (Google Calendar & message payload copy).
+RESEND_API_KEY=
+CONTACT_RECEIVER_EMAIL=
+```
 
 ---
 
@@ -114,16 +142,16 @@ The application is pre-configured for instant zero-configuration deployment on V
 1. Push this repository to GitHub:
    ```bash
    git add .
-   git commit -m "feat: initial release of RANA.OS interactive developer portfolio"
-   git remote add origin https://github.com/rana-irtaza/portfolio.git
-   git push -u origin master
+   git commit -m "feat: complete Phase 5 contact, resume, and conversion optimization"
+   git push origin main
    ```
 2. Import the repository in your [Vercel Dashboard](https://vercel.com/new).
 3. Framework Preset: **Next.js**.
-4. Click **Deploy**.
+4. Configure environment variables (`NEXT_PUBLIC_CONTACT_EMAIL`, `RESEND_API_KEY`, etc. if available).
+5. Click **Deploy**.
 
 ---
 
 ## 📄 License & Content Integrity
 
-All architectural diagrams, project details, and educational credentials reflect authentic work by **Rana Irtaza Ali Khan** (BS IT, June 2026, CGPA 3.10 / 4.00). Content is maintained in `src/data/portfolio.ts`.
+All architectural diagrams, project details, and educational credentials reflect authentic work by **Rana Irtaza Ali Khan** (BS IT, June 2026, CGPA 3.1/4.00). Content is maintained in `src/data/portfolio.ts`.

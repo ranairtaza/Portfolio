@@ -16,6 +16,9 @@ import {
   FolderGit2,
   Check,
   X,
+  Calendar,
+  Layers,
+  FileDown,
 } from 'lucide-react';
 import { GithubIcon, LinkedinIcon } from './BrandIcons';
 import { GraphicsMode } from '../../types/portfolio';
@@ -126,10 +129,21 @@ function CommandPaletteModal({
       },
     },
     {
+      id: 'nav-services',
+      category: 'Navigation',
+      title: 'Services / What I Can Help Build',
+      subtitle: 'SaaS MVPs, dashboards, web applications, API & AI workflows',
+      icon: <Layers className="w-4 h-4 text-cyan-400" />,
+      action: () => {
+        window.location.hash = 'services';
+        onClose();
+      },
+    },
+    {
       id: 'nav-contact',
       category: 'Navigation',
-      title: 'Contact Rana',
-      subtitle: 'Initiate inquiry or request direct collaboration',
+      title: 'Contact Gateway',
+      subtitle: 'Career opportunities, software projects & collaboration',
       icon: <Mail className="w-4 h-4 text-cyan-400" />,
       action: () => {
         window.location.hash = 'contact';
@@ -187,13 +201,43 @@ function CommandPaletteModal({
 
     // Actions
     {
-      id: 'act-copy-email',
+      id: 'act-booking',
       category: 'Actions',
-      title: copiedEmail ? 'Email Copied to Clipboard!' : `Copy Email (${PERSONAL_INFO.email})`,
-      subtitle: 'One-click copy for quick correspondence',
-      icon: copiedEmail ? <Check className="w-4 h-4 text-emerald-400" /> : <Mail className="w-4 h-4 text-cyan-400" />,
-      action: handleCopyEmail,
+      title: 'Schedule on Google Calendar',
+      subtitle: 'Book a 1-on-1 discovery call or recruiter interview',
+      icon: <Calendar className="w-4 h-4 text-cyan-400" />,
+      action: () => {
+        window.open(PERSONAL_INFO.bookingUrl, '_blank', 'noopener,noreferrer');
+        onClose();
+      },
     },
+    ...(PERSONAL_INFO.email
+      ? [
+          {
+            id: 'act-copy-email',
+            category: 'Actions' as const,
+            title: copiedEmail ? 'Email Copied to Clipboard!' : `Copy Email (${PERSONAL_INFO.email})`,
+            subtitle: 'One-click copy for quick correspondence',
+            icon: copiedEmail ? <Check className="w-4 h-4 text-emerald-400" /> : <Mail className="w-4 h-4 text-cyan-400" />,
+            action: handleCopyEmail,
+          },
+        ]
+      : []),
+    ...(PERSONAL_INFO.hasResumePdf
+      ? [
+          {
+            id: 'act-download-resume',
+            category: 'Actions' as const,
+            title: 'Download Verified Résumé (PDF)',
+            subtitle: 'Official education, experience and project documentation',
+            icon: <FileDown className="w-4 h-4 text-cyan-400" />,
+            action: () => {
+              window.open(PERSONAL_INFO.resumeUrl, '_blank');
+              onClose();
+            },
+          },
+        ]
+      : []),
     {
       id: 'act-github',
       category: 'Actions',

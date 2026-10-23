@@ -7,6 +7,7 @@ import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
 import CommandPalette from '../components/ui/CommandPalette';
 import { PERSONAL_INFO } from '../data/portfolio';
+import { getSiteUrl } from '../lib/siteConfig';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -18,7 +19,7 @@ const geistMono = Geist_Mono({
   subsets: ['latin'],
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://rana-os.vercel.app';
+const siteUrl = getSiteUrl();
 
 export const metadata: Metadata = {
   title: 'Rana Irtaza Ali Khan — Full-Stack Engineer & AI Solutions Architect | RANA.OS',

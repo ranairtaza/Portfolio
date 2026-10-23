@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { PERSONAL_INFO } from '../../data/portfolio';
-import { ArrowUp, Mail } from 'lucide-react';
+import { ArrowUp, Mail, Calendar } from 'lucide-react';
 import { GithubIcon, LinkedinIcon } from '../ui/BrandIcons';
 
 export default function Footer() {
@@ -17,6 +17,7 @@ export default function Footer() {
     { label: 'Skills', href: '/#skills' },
     { label: 'Journey', href: '/#journey' },
     { label: 'Beyond Code', href: '/#beyond-code' },
+    { label: 'Services', href: '/#services' },
     { label: 'Contact', href: '/#contact' },
   ];
 
@@ -28,7 +29,7 @@ export default function Footer() {
           <div className="flex items-center space-x-3">
             <span className="w-2.5 h-2.5 rounded-full bg-cyan-300 shadow-[0_0_8px_#67e8f9]" />
             <span className="font-mono text-sm font-bold tracking-wider text-white">
-              RANA.OS // Phase 1
+              RANA.OS // Engineering Portfolio
             </span>
           </div>
 
@@ -54,6 +55,7 @@ export default function Footer() {
               rel="noopener noreferrer"
               className="text-slate-400 hover:text-white transition-colors"
               aria-label="GitHub Profile"
+              title="GitHub Profile"
             >
               <GithubIcon className="w-4 h-4" />
             </a>
@@ -63,16 +65,30 @@ export default function Footer() {
               rel="noopener noreferrer"
               className="text-slate-400 hover:text-blue-400 transition-colors"
               aria-label="LinkedIn Profile"
+              title="LinkedIn Profile"
             >
               <LinkedinIcon className="w-4 h-4" />
             </a>
             <a
-              href={`mailto:${PERSONAL_INFO.email}`}
+              href={PERSONAL_INFO.bookingUrl}
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-slate-400 hover:text-cyan-300 transition-colors"
-              aria-label="Email Rana"
+              aria-label="Book a Conversation on Google Calendar"
+              title="Schedule on Google Calendar"
             >
-              <Mail className="w-4 h-4" />
+              <Calendar className="w-4 h-4" />
             </a>
+            {PERSONAL_INFO.email ? (
+              <a
+                href={`mailto:${PERSONAL_INFO.email}`}
+                className="text-slate-400 hover:text-cyan-300 transition-colors"
+                aria-label="Email Rana"
+                title="Send Direct Email"
+              >
+                <Mail className="w-4 h-4" />
+              </a>
+            ) : null}
             <button
               onClick={scrollToTop}
               className="flex items-center space-x-1 px-2.5 py-1 rounded bg-surface-primary border border-white/[0.08] text-xs font-mono text-slate-400 hover:text-cyan-300 transition-colors"
