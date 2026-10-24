@@ -202,14 +202,22 @@ html:not(.dark) .bg-\[\#0c1222\]\/90 {
   background-color: #ffffff !important;
 }
 
+html:not(.dark) .text-cyan-200,
 html:not(.dark) .text-cyan-300,
 html:not(.dark) .text-cyan-400 {
-  color: #0284c7 !important;
+  color: #0369a1 !important;
 }
 
+html:not(.dark) .bg-cyan-500\/20 {
+  background-color: #e0f2fe !important;
+  border-color: #38bdf8 !important;
+  color: #0369a1 !important;
+}
+
+html:not(.dark) .bg-cyan-950\/40,
+html:not(.dark) .bg-cyan-950\/50,
 html:not(.dark) .bg-cyan-950\/60,
-html:not(.dark) .bg-cyan-950\/70,
-html:not(.dark) .bg-cyan-950\/50 {
+html:not(.dark) .bg-cyan-950\/70 {
   background-color: #e0f2fe !important;
   color: #0369a1 !important;
 }

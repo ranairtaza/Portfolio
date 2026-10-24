@@ -35,10 +35,9 @@ export default function SkillsConstellation() {
   const { selectedSkill, setSelectedSkill, isReducedMotion } = usePortfolio();
   const [selectedProjectFilter, setSelectedProjectFilter] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<'constellation' | 'accessible-grid'>('constellation');
-  const [hoveredSkill, setHoveredSkill] = useState<string | null>(null);
 
-  // Default to Next.js or selected skill
-  const activeSkillName = selectedSkill || hoveredSkill || 'Next.js';
+  // Default to Next.js or selected skill without transient hover layout shifts
+  const activeSkillName = selectedSkill || 'Next.js';
 
   // Find the active skill object across all categories
   let activeSkillObj: (SkillItem & { categoryTitle: string; isExploringGroup?: boolean }) | null = null;
@@ -173,7 +172,7 @@ export default function SkillsConstellation() {
         </div>
 
         {/* Active Technology Inspector Callout Banner */}
-        <div className="rounded-2xl glass-panel border border-cyan-400/30 p-5 sm:p-6 bg-gradient-to-r from-cyan-950/30 via-slate-900/70 to-violet-950/30 shadow-xl shadow-cyan-950/20 space-y-4">
+        <div className="rounded-2xl glass-panel border border-cyan-400/30 p-5 sm:p-6 bg-gradient-to-r from-cyan-950/30 via-slate-900/70 to-violet-950/30 shadow-xl shadow-cyan-950/20 space-y-4 min-h-[180px]">
           <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 pb-3 border-b border-white/[0.08]">
             <div className="space-y-1">
               <div className="flex items-center space-x-2">
@@ -324,37 +323,35 @@ export default function SkillsConstellation() {
                         return (
                           <button
                             key={idx}
-                            onClick={() => setSelectedSkill(skill.name)}
-                            onMouseEnter={() => setHoveredSkill(skill.name)}
-                            onMouseLeave={() => setHoveredSkill(null)}
+                            onClick={() => setSelectedSkill(selectedSkill === skill.name ? null : skill.name)}
                             aria-label={`Select skill: ${skill.name}`}
-                            className={`w-full text-left p-2.5 rounded-xl transition-all flex items-center justify-between focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 ${
+                            className={`w-full text-left p-2.5 rounded-xl transition-all flex items-center justify-between focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${
                               isSelected
-                                ? 'bg-cyan-500/20 border border-cyan-400/60 shadow-md shadow-cyan-500/20'
+                                ? 'bg-cyan-100 border border-cyan-500 shadow-sm text-cyan-950 font-bold dark:bg-cyan-500/20 dark:text-cyan-200 dark:border-cyan-400/60 dark:shadow-cyan-500/20'
                                 : isConnected
-                                ? 'bg-cyan-950/40 border border-cyan-400/40 text-cyan-200'
-                                : 'bg-surface-primary/70 border border-white/[0.05] hover:border-cyan-300/30 hover:bg-white/[0.04]'
+                                ? 'bg-cyan-50 border border-cyan-300 text-cyan-900 font-semibold dark:bg-cyan-950/40 dark:border-cyan-400/40 dark:text-cyan-200'
+                                : 'bg-surface-primary/70 border border-slate-200/80 text-slate-800 hover:border-cyan-400/40 hover:bg-slate-50 dark:border-white/[0.05] dark:text-slate-200 dark:hover:border-cyan-300/30 dark:hover:bg-white/[0.04]'
                             }`}
                           >
                             <div className="flex items-center space-x-2.5 min-w-0">
                               <span
                                 className={`w-2 h-2 rounded-full shrink-0 transition-colors ${
                                   isSelected
-                                    ? 'bg-cyan-300 ring-4 ring-cyan-400/30'
+                                    ? 'bg-cyan-600 ring-4 ring-cyan-200 dark:bg-cyan-300 dark:ring-cyan-400/30'
                                     : isConnected
-                                    ? 'bg-cyan-400'
+                                    ? 'bg-cyan-500 dark:bg-cyan-400'
                                     : isExploringGroup
-                                    ? 'bg-amber-400/60'
-                                    : 'bg-slate-500'
+                                    ? 'bg-amber-500 dark:bg-amber-400/60'
+                                    : 'bg-slate-400 dark:bg-slate-500'
                                 }`}
                               />
                               <span
                                 className={`text-xs font-semibold truncate transition-colors ${
                                   isSelected
-                                    ? 'text-cyan-200'
+                                    ? 'text-cyan-950 dark:text-cyan-200 font-bold'
                                     : isConnected
-                                    ? 'text-cyan-300'
-                                    : 'text-slate-200'
+                                    ? 'text-cyan-900 dark:text-cyan-300 font-semibold'
+                                    : 'text-slate-800 dark:text-slate-200'
                                 }`}
                               >
                                 {skill.name}
@@ -362,7 +359,7 @@ export default function SkillsConstellation() {
                             </div>
 
                             {skill.highlight && (
-                              <span className="text-[10px] font-mono text-slate-400 truncate max-w-[130px] ml-2 shrink-0">
+                              <span className="text-[10px] font-mono text-slate-500 dark:text-slate-400 truncate max-w-[130px] ml-2 shrink-0">
                                 {skill.highlight}
                               </span>
                             )}
