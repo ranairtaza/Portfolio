@@ -36,7 +36,8 @@ function checkWebGLSupport(): boolean {
  * - Zero pointer event interference (pointer-events-none)
  */
 export default function UniverseBackground() {
-  const { graphicsMode, isReducedMotion } = usePortfolio();
+  const { graphicsMode, isReducedMotion, theme } = usePortfolio();
+  const isDark = theme !== 'light';
 
   const isClient = useSyncExternalStore(
     emptySubscribe,
@@ -61,13 +62,29 @@ export default function UniverseBackground() {
       className="fixed inset-0 pointer-events-none -z-10 w-full h-full overflow-hidden select-none"
       aria-hidden="true"
     >
-      {/* Deep cosmic gradient backdrop */}
-      <div className="absolute inset-0 bg-[#030712]" />
+      {/* Deep cosmic gradient backdrop in dark mode, clean subtle atmospheric backdrop in light mode */}
+      <div
+        className={`absolute inset-0 transition-colors duration-500 ${
+          isDark ? 'bg-[#060913]' : 'bg-[#f8fafc]'
+        }`}
+      />
 
       {/* Atmospheric radial accent glows */}
-      <div className="absolute -top-[15%] left-[20%] w-[55vw] h-[55vw] max-w-[700px] max-h-[700px] rounded-full bg-cyan-950/20 blur-[130px]" />
-      <div className="absolute top-[40%] -right-[10%] w-[50vw] h-[50vw] max-w-[650px] max-h-[650px] rounded-full bg-indigo-950/20 blur-[140px]" />
-      <div className="absolute bottom-[10%] left-[10%] w-[45vw] h-[45vw] max-w-[600px] max-h-[600px] rounded-full bg-violet-950/15 blur-[120px]" />
+      <div
+        className={`absolute -top-[15%] left-[20%] w-[55vw] h-[55vw] max-w-[700px] max-h-[700px] rounded-full blur-[130px] transition-colors duration-500 ${
+          isDark ? 'bg-cyan-950/25' : 'bg-sky-200/50'
+        }`}
+      />
+      <div
+        className={`absolute top-[40%] -right-[10%] w-[50vw] h-[50vw] max-w-[650px] max-h-[650px] rounded-full blur-[140px] transition-colors duration-500 ${
+          isDark ? 'bg-indigo-950/25' : 'bg-indigo-100/50'
+        }`}
+      />
+      <div
+        className={`absolute bottom-[10%] left-[10%] w-[45vw] h-[45vw] max-w-[600px] max-h-[600px] rounded-full blur-[120px] transition-colors duration-500 ${
+          isDark ? 'bg-violet-950/20' : 'bg-violet-100/40'
+        }`}
+      />
 
       {/* Subtle grid layer */}
       <div className="absolute inset-0 bg-grid-subtle opacity-40" />

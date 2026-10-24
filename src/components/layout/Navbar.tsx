@@ -8,52 +8,16 @@ import {
   Menu,
   X,
   ArrowUpRight,
-  Sparkles,
-  Cpu,
-  Zap,
+  Sun,
+  Moon,
 } from 'lucide-react';
-import { GraphicsMode } from '../../types/portfolio';
 
 export default function Navbar() {
-  const { activeSection, setActiveSection, toggleCommandPalette, graphicsMode, setGraphicsMode } =
+  const { activeSection, setActiveSection, toggleCommandPalette, theme, toggleTheme } =
     usePortfolio();
 
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  const cycleGraphicsMode = () => {
-    const modes: GraphicsMode[] = ['3d-high', '3d-low', '2d-ambient'];
-    const nextIdx = (modes.indexOf(graphicsMode) + 1) % modes.length;
-    setGraphicsMode(modes[nextIdx]);
-  };
-
-  const getGraphicsBadge = () => {
-    switch (graphicsMode) {
-      case '3d-high':
-        return {
-          label: '3D High',
-          icon: <Sparkles className="w-3 h-3 text-cyan-300" />,
-          dotColor: 'bg-cyan-300 shadow-[0_0_8px_#67e8f9]',
-          border: 'border-cyan-400/40 text-cyan-300',
-        };
-      case '3d-low':
-        return {
-          label: '3D Eco',
-          icon: <Cpu className="w-3 h-3 text-violet-300" />,
-          dotColor: 'bg-violet-400 shadow-[0_0_8px_#a78bfa]',
-          border: 'border-violet-400/40 text-violet-300',
-        };
-      case '2d-ambient':
-        return {
-          label: '2D Canvas',
-          icon: <Zap className="w-3 h-3 text-amber-300" />,
-          dotColor: 'bg-amber-400 shadow-[0_0_8px_#fbbf24]',
-          border: 'border-amber-400/40 text-amber-300',
-        };
-    }
-  };
-
-  const graphicsBadge = getGraphicsBadge();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -111,14 +75,9 @@ export default function Navbar() {
               <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-cyan-300 animate-pulse border-2 border-[#070a12]" />
             </div>
             <div className="flex flex-col">
-              <div className="flex items-center space-x-2">
-                <span className="font-mono text-sm font-semibold tracking-wider text-slate-100">
-                  RANA.OS
-                </span>
-                <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-cyan-950/60 text-cyan-300 border border-cyan-800/40">
-                  v2.4 // ONLINE
-                </span>
-              </div>
+              <span className="font-mono text-sm font-semibold tracking-wider text-slate-100">
+                RANA.OS
+              </span>
               <span className="text-[11px] text-slate-400 hidden sm:inline-block font-mono">
                 Rana Irtaza Ali Khan
               </span>
@@ -151,19 +110,22 @@ export default function Navbar() {
             })}
           </nav>
 
-          {/* Actions: Graphics Mode, Command Palette & Contact CTA */}
+          {/* Actions: Theme Switcher, Command Palette & Contact CTA */}
           <div className="flex items-center space-x-2">
-            {/* Graphics / Effects Mode Cycle Button */}
+            {/* Light / Dark Mode Toggle Button */}
             <button
-              onClick={cycleGraphicsMode}
+              id="theme-toggle-btn"
+              onClick={toggleTheme}
               suppressHydrationWarning
-              className={`hidden sm:inline-flex items-center space-x-1.5 px-2.5 py-1.5 rounded-lg bg-surface-primary border hover:bg-white/[0.05] transition-all text-xs font-mono focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 ${graphicsBadge.border}`}
-              title={`Active Graphics Engine: ${graphicsBadge.label}. Click to cycle mode (High 3D, Eco 3D, 2D Canvas)`}
-              aria-label={`Toggle background graphics mode. Current: ${graphicsBadge.label}`}
+              className="flex items-center justify-center w-8 h-8 rounded-lg bg-surface-primary border border-white/[0.08] hover:border-cyan-400/40 hover:bg-white/[0.05] transition-all text-slate-300 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
+              title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} mode`}
+              aria-label={`Current theme: ${theme}. Click to switch to ${theme === 'dark' ? 'Light' : 'Dark'} mode`}
             >
-              <span className={`w-1.5 h-1.5 rounded-full ${graphicsBadge.dotColor}`} />
-              {graphicsBadge.icon}
-              <span className="text-[11px] font-medium hidden lg:inline">{graphicsBadge.label}</span>
+              {theme === 'dark' ? (
+                <Sun className="w-4 h-4 text-amber-300 hover:rotate-45 transition-transform duration-300" />
+              ) : (
+                <Moon className="w-4 h-4 text-cyan-600 hover:-rotate-12 transition-transform duration-300" />
+              )}
             </button>
 
             {/* Command Palette Button */}
@@ -219,29 +181,25 @@ export default function Navbar() {
               </a>
             ))}
 
-            {/* Mobile Graphics Mode Toggle */}
-            <div className="pt-3 border-t border-white/10 space-y-2">
-              <span className="text-[11px] font-mono uppercase text-slate-400 block px-1">
-                Background Engine:
-              </span>
-              <div className="grid grid-cols-3 gap-1.5">
-                {(['3d-high', '3d-low', '2d-ambient'] as GraphicsMode[]).map((mode) => (
-                  <button
-                    key={mode}
-                    onClick={() => {
-                      setGraphicsMode(mode);
-                      setMobileMenuOpen(false);
-                    }}
-                    className={`px-2 py-1.5 rounded-lg text-[11px] font-mono transition-all text-center ${
-                      graphicsMode === mode
-                        ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-400/40 font-bold'
-                        : 'bg-white/[0.04] text-slate-400 border border-white/05 hover:text-slate-200'
-                    }`}
-                  >
-                    {mode === '3d-high' ? '3D High' : mode === '3d-low' ? '3D Eco' : '2D Canvas'}
-                  </button>
-                ))}
-              </div>
+            {/* Mobile Theme Switcher */}
+            <div className="pt-3 border-t border-white/10 flex items-center justify-between px-1">
+              <span className="text-xs text-slate-300 font-medium">Appearance Theme</span>
+              <button
+                onClick={toggleTheme}
+                className="inline-flex items-center space-x-2 px-3 py-1.5 rounded-lg bg-surface-primary border border-white/10 text-xs font-medium text-slate-200"
+              >
+                {theme === 'dark' ? (
+                  <>
+                    <Sun className="w-3.5 h-3.5 text-amber-300" />
+                    <span>Dark Mode</span>
+                  </>
+                ) : (
+                  <>
+                    <Moon className="w-3.5 h-3.5 text-cyan-600" />
+                    <span>Light Mode</span>
+                  </>
+                )}
+              </button>
             </div>
 
             <div className="pt-3 border-t border-white/10 flex items-center justify-between">

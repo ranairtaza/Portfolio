@@ -6,6 +6,7 @@ import UniverseBackground from '../components/background/UniverseBackground';
 import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
 import CommandPalette from '../components/ui/CommandPalette';
+import ScrollRobotDemi from '../components/ui/ScrollRobotDemi';
 import { PERSONAL_INFO } from '../data/portfolio';
 import { getSiteUrl } from '../lib/siteConfig';
 
@@ -92,21 +93,47 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased scroll-smooth`}
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased scroll-smooth dark`}
+      suppressHydrationWarning
     >
       <head>
+        {/* Immediate anti-flash theme script */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var saved = localStorage.getItem('rana_os_theme');
+                  var theme = saved === 'light' ? 'light' : 'dark';
+                  if (theme === 'dark') {
+                    document.documentElement.classList.add('dark');
+                    document.documentElement.classList.remove('light');
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                  } else {
+                    document.documentElement.classList.add('light');
+                    document.documentElement.classList.remove('dark');
+                    document.documentElement.setAttribute('data-theme', 'light');
+                  }
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="min-h-full flex flex-col font-sans bg-[#070a12] text-[#f8fafc] selection:bg-cyan-500/30 selection:text-cyan-200">
+      <body className="min-h-full flex flex-col font-sans bg-background text-foreground selection:bg-cyan-500/30 selection:text-cyan-200 transition-colors duration-300">
         <PortfolioProvider>
           {/* Persistent Interactive 3D Universe Background with WebGL detection and Canvas Fallback */}
           <UniverseBackground />
 
           {/* Sticky Navigation */}
           <Navbar />
+
+          {/* Animated Demi Robot Scroll Companion */}
+          <ScrollRobotDemi />
 
           {/* Keyboard Command Palette */}
           <CommandPalette />

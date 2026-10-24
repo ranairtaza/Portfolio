@@ -39,7 +39,7 @@ export const PERSONAL_INFO = {
   // The download action remains hidden until a real PDF is confirmed to exist.
   resumeUrl: '/resume.pdf',
   hasResumePdf: process.env.NEXT_PUBLIC_HAS_RESUME === 'true' || false,
-  avatarUrl: '', // Profile image component gracefully displays authentic initials/system badge until a real photo is supplied
+  avatarUrl: '/avatar.png', // Verified real portrait photo
   education: {
     degree: 'BS Information Technology',
     completion: 'June 2026',

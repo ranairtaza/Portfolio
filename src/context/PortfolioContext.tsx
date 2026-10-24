@@ -3,7 +3,12 @@
 import React, { createContext, useContext, useState, useEffect, useSyncExternalStore } from 'react';
 import { GraphicsMode } from '../types/portfolio';
 
+export type Theme = 'dark' | 'light';
+
 interface PortfolioContextType {
+  theme: Theme;
+  toggleTheme: () => void;
+  setTheme: (theme: Theme) => void;
   graphicsMode: GraphicsMode;
   setGraphicsMode: (mode: GraphicsMode) => void;
   activeSection: string;
@@ -49,6 +54,20 @@ function getInitialGraphicsMode(): GraphicsMode {
   return '3d-high';
 }
 
+function getInitialTheme(): Theme {
+  if (typeof window !== 'undefined') {
+    try {
+      const savedTheme = localStorage.getItem('rana_os_theme') as Theme;
+      if (savedTheme === 'light' || savedTheme === 'dark') {
+        return savedTheme;
+      }
+    } catch {
+      // ignore
+    }
+  }
+  return 'dark';
+}
+
 export function PortfolioProvider({ children }: { children: React.ReactNode }) {
   const isReducedMotion = useSyncExternalStore(
     subscribeReducedMotion,
@@ -56,11 +75,40 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     () => false
   );
 
+  const [theme, setThemeState] = useState<Theme>(getInitialTheme);
   const [graphicsMode, setGraphicsModeState] = useState<GraphicsMode>(getInitialGraphicsMode);
   const [activeSection, setActiveSection] = useState<string>('hero');
   const [activeProjectId, setActiveProjectId] = useState<string | null>(null);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState<boolean>(false);
   const [selectedSkill, setSelectedSkill] = useState<string | null>(null);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    if (theme === 'dark') {
+      root.classList.add('dark');
+      root.classList.remove('light');
+      root.setAttribute('data-theme', 'dark');
+      root.style.colorScheme = 'dark';
+    } else {
+      root.classList.add('light');
+      root.classList.remove('dark');
+      root.setAttribute('data-theme', 'light');
+      root.style.colorScheme = 'light';
+    }
+    try {
+      localStorage.setItem('rana_os_theme', theme);
+    } catch {
+      // ignore
+    }
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setThemeState((prev) => (prev === 'dark' ? 'light' : 'dark'));
+  };
+
+  const setTheme = (newTheme: Theme) => {
+    setThemeState(newTheme);
+  };
 
   useEffect(() => {
     // Global Command/Ctrl + K shortcut
@@ -92,6 +140,9 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
   return (
     <PortfolioContext.Provider
       value={{
+        theme,
+        toggleTheme,
+        setTheme,
         graphicsMode,
         setGraphicsMode,
         activeSection,

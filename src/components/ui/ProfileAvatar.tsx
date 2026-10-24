@@ -23,7 +23,8 @@ export default function ProfileAvatar({
     xl: 'w-36 h-36 sm:w-44 sm:h-44 text-3xl sm:text-4xl',
   };
 
-  const hasRealPhoto = Boolean(src && src.trim().length > 0);
+  const [imgError, setImgError] = React.useState(false);
+  const hasRealPhoto = Boolean(src && src.trim().length > 0 && !imgError);
 
   return (
     <div className={`relative inline-block ${className}`} title={title || name}>
@@ -32,7 +33,7 @@ export default function ProfileAvatar({
 
       {/* Main Avatar Container */}
       <div
-        className={`relative ${sizeClasses[size]} rounded-2xl glass-panel border border-cyan-400/40 overflow-hidden flex items-center justify-center shadow-2xl shadow-cyan-950/40 bg-gradient-to-br from-[#0c1222] via-[#070a12] to-[#120e29]`}
+        className={`relative ${sizeClasses[size]} rounded-2xl glass-panel border border-cyan-400/50 overflow-hidden flex items-center justify-center shadow-2xl shadow-cyan-950/40 bg-gradient-to-br from-[#0c1222] via-[#070a12] to-[#120e29] ring-2 ring-cyan-400/20`}
       >
         {hasRealPhoto ? (
           <Image
@@ -40,8 +41,9 @@ export default function ProfileAvatar({
             alt={name}
             fill
             sizes="(max-width: 640px) 128px, 176px"
-            className="object-cover"
+            className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
             priority
+            onError={() => setImgError(true)}
           />
         ) : (
           <div className="flex flex-col items-center justify-center p-2 text-center select-none w-full h-full relative">
