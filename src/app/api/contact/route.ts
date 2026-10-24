@@ -122,7 +122,10 @@ export async function POST(request: Request) {
 
     // 5. Check if backend email delivery is configured
     const apiKey = process.env.RESEND_API_KEY;
-    const receiverEmail = process.env.CONTACT_RECEIVER_EMAIL || process.env.NEXT_PUBLIC_CONTACT_EMAIL;
+    const receiverEmail =
+      process.env.CONTACT_RECEIVER_EMAIL ||
+      process.env.NEXT_PUBLIC_CONTACT_EMAIL ||
+      'irtaza841@gmail.com';
 
     if (!apiKey || !receiverEmail) {
       // Truthful fallback: Server delivery is not yet provisioned with real API keys

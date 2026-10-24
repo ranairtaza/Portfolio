@@ -30,7 +30,7 @@ export const PERSONAL_INFO = {
   // Configurable email field:
   // Direct email actions (mailto buttons, copy email) are rendered ONLY when a verified email is provided here or via NEXT_PUBLIC_CONTACT_EMAIL.
   // Kept empty by default to prevent displaying unverified or placeholder email addresses.
-  email: process.env.NEXT_PUBLIC_CONTACT_EMAIL || '',
+  email: process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'irtaza841@gmail.com',
   github: 'https://github.com/ranairtaza',
   linkedin: 'https://linkedin.com/in/rana-irtaza-ali-khan-849859227/',
   bookingUrl: 'https://calendar.app.google/c2aHvSbZivHms8St6',
