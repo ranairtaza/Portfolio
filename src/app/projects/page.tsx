@@ -149,17 +149,19 @@ export default function ProjectsIndexPage() {
                       href={project.githubUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/[0.06] transition-colors"
-                      title="GitHub Repository"
+                      className="inline-flex items-center space-x-1 px-2.5 py-1 rounded-lg text-slate-300 hover:text-white bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] transition-colors text-[11px] font-mono"
+                      title="Verified GitHub Repository"
                     >
-                      <GithubIcon className="w-4 h-4" />
+                      <GithubIcon className="w-3.5 h-3.5" />
+                      <span>Code</span>
                     </a>
                   ) : (
                     <span
                       title={project.repoAccessLabel || 'Private System'}
-                      className="p-1.5 text-slate-600"
+                      className="inline-flex items-center space-x-1 px-2.5 py-1 rounded-lg text-slate-500 bg-white/[0.02] border border-white/[0.04] text-[11px] font-mono"
                     >
-                      <Lock className="w-3.5 h-3.5" />
+                      <Lock className="w-3 h-3" />
+                      <span>Internal</span>
                     </span>
                   )}
 
@@ -168,10 +170,11 @@ export default function ProjectsIndexPage() {
                       href={project.liveUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-1.5 rounded-lg text-slate-400 hover:text-cyan-300 hover:bg-white/[0.06] transition-colors"
-                      title="Live Demo"
+                      className="inline-flex items-center space-x-1 px-2.5 py-1 rounded-lg text-emerald-400 hover:text-emerald-300 bg-emerald-950/40 hover:bg-emerald-950/70 border border-emerald-800/40 transition-colors text-[11px] font-mono font-medium"
+                      title="Live Verified Demonstration"
                     >
-                      <ExternalLink className="w-4 h-4" />
+                      <ExternalLink className="w-3.5 h-3.5" />
+                      <span>Live Demo</span>
                     </a>
                   )}
                 </div>

@@ -24,7 +24,7 @@ export default function Navbar() {
       setIsScrolled(window.scrollY > 20);
 
       // Section spy
-      const sections = ['home', 'about', 'projects', 'skills', 'journey', 'beyond-code', 'services', 'contact'];
+      const sections = ['home', 'about', 'projects', 'skills', 'certifications', 'journey', 'beyond-code', 'services', 'contact'];
       // Use a lower threshold for shorter sections
       for (const sectionId of sections) {
         const el = document.getElementById(sectionId);
@@ -47,6 +47,7 @@ export default function Navbar() {
     { id: 'about', label: 'About', href: '/#about' },
     { id: 'projects', label: 'Projects', href: '/#projects' },
     { id: 'skills', label: 'Skills', href: '/#skills' },
+    { id: 'certifications', label: 'Certifications', href: '/#certifications' },
     { id: 'journey', label: 'Journey', href: '/#journey' },
     { id: 'services', label: 'Services', href: '/#services' },
     { id: 'contact', label: 'Contact', href: '/#contact' },

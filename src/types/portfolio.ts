@@ -184,3 +184,35 @@ export interface ServiceArea {
 
 export type ContactInquiryType = 'career' | 'project' | 'collaboration' | 'general';
 
+export type CertificationCategory =
+  | 'all'
+  | 'ai'
+  | 'networking-support'
+  | 'business-leadership'
+  | 'marketing'
+  | 'internship';
+
+export interface CertificationSubCourse {
+  title: string;
+  credentialId?: string;
+  verificationUrl?: string;
+  pdfUrl?: string;
+}
+
+export interface Certification {
+  id: string;
+  title: string;
+  issuer: string;
+  issuerType: 'Google' | 'Cisco' | 'Coursera' | 'Outskill' | 'Talkpool' | 'Other';
+  issueDate: string;
+  credentialId?: string;
+  verificationUrl?: string;
+  certificatePdfUrl?: string;
+  certificateImageUrl?: string;
+  skills: string[];
+  summary: string;
+  category: 'ai' | 'networking-support' | 'business-leadership' | 'marketing' | 'internship';
+  isFeatured: boolean;
+  subCourses?: CertificationSubCourse[];
+}
+

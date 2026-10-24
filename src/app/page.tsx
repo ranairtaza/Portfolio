@@ -3,6 +3,7 @@ import HeroSection from '../components/sections/HeroSection';
 import AboutSection from '../components/sections/AboutSection';
 import ProjectsSection from '../components/sections/ProjectsSection';
 import SkillsConstellation from '../components/sections/SkillsConstellation';
+import CertificationsSection from '../components/sections/CertificationsSection';
 import TimelineSection from '../components/sections/TimelineSection';
 import InterestsSection from '../components/sections/InterestsSection';
 import ServicesSection from '../components/sections/ServicesSection';
@@ -23,10 +24,13 @@ export default function Home() {
       {/* 03. Skills Constellation & Dynamic Project Links */}
       <SkillsConstellation />
 
-      {/* 04. Experience & Education Timeline */}
+      {/* 04. Certifications & Technical Proof (Google, Cisco, Outskill, Talkpool) */}
+      <CertificationsSection />
+
+      {/* 05. Experience & Education Timeline */}
       <TimelineSection />
 
-      {/* 05. Interests, Ongoing Learning & Tech Radar */}
+      {/* 06. Interests, Ongoing Learning & Tech Radar */}
       <InterestsSection />
 
       {/* 06. Engineering Services & Client Conversion */}

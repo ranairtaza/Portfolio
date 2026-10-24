@@ -19,6 +19,7 @@ import {
   Calendar,
   Layers,
   FileDown,
+  Award,
 } from 'lucide-react';
 import { GithubIcon, LinkedinIcon } from './BrandIcons';
 import { GraphicsMode } from '../../types/portfolio';
@@ -103,6 +104,17 @@ function CommandPaletteModal({
       icon: <Cpu className="w-4 h-4 text-cyan-400" />,
       action: () => {
         window.location.hash = 'skills';
+        onClose();
+      },
+    },
+    {
+      id: 'nav-certifications',
+      category: 'Navigation',
+      title: 'Certifications & Technical Proof',
+      subtitle: 'Google Career Certificates, Cisco, Outskill, Talkpool',
+      icon: <Award className="w-4 h-4 text-cyan-400" />,
+      action: () => {
+        window.location.hash = 'certifications';
         onClose();
       },
     },
@@ -295,7 +307,7 @@ function CommandPaletteModal({
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.15 }}
-        className="fixed inset-0 bg-[#030712]/80 backdrop-blur-md"
+        className="fixed inset-0 bg-slate-900/60 dark:bg-[#030712]/80 backdrop-blur-md"
         onClick={onClose}
       />
 
@@ -305,11 +317,11 @@ function CommandPaletteModal({
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.96, y: -12 }}
         transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-        className="relative w-full max-w-xl rounded-2xl bg-[#070d1d] border border-cyan-500/30 shadow-2xl shadow-cyan-950/50 overflow-hidden z-10 flex flex-col max-h-[80vh]"
+        className="relative w-full max-w-xl rounded-2xl bg-white dark:bg-[#070d1d] border border-slate-200 dark:border-cyan-500/30 shadow-2xl shadow-slate-900/15 dark:shadow-cyan-950/50 overflow-hidden z-10 flex flex-col max-h-[80vh]"
       >
         {/* Search Input Bar */}
-        <div className="flex items-center px-4 py-3.5 border-b border-white/[0.08] bg-surface-secondary">
-          <Search className="w-5 h-5 text-cyan-400 mr-3 shrink-0" />
+        <div className="flex items-center px-4 py-3.5 border-b border-slate-200 dark:border-white/[0.08] bg-slate-50 dark:bg-surface-secondary">
+          <Search className="w-5 h-5 text-cyan-600 dark:text-cyan-400 mr-3 shrink-0" />
           <input
             ref={inputRef}
             type="text"
@@ -320,11 +332,11 @@ function CommandPaletteModal({
             }}
             onKeyDown={handleKeyDown}
             placeholder="Type a command, project, or section..."
-            className="w-full bg-transparent text-sm text-slate-100 placeholder-slate-500 focus:outline-none font-mono"
+            className="w-full bg-transparent text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none font-mono"
           />
           <button
             onClick={onClose}
-            className="p-1 rounded text-slate-400 hover:text-slate-200 hover:bg-white/[0.05] transition-colors"
+            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-200/60 dark:hover:bg-white/[0.05] transition-colors"
             aria-label="Close Command Palette"
           >
             <X className="w-4 h-4" />
@@ -332,9 +344,9 @@ function CommandPaletteModal({
         </div>
 
         {/* Results List */}
-        <div className="overflow-y-auto p-2 divide-y divide-white/[0.04] scrollbar-thin">
+        <div className="overflow-y-auto p-2 divide-y divide-slate-100 dark:divide-white/[0.04] scrollbar-thin">
           {filteredItems.length === 0 ? (
-            <div className="py-12 text-center text-slate-400 text-xs font-mono">
+            <div className="py-12 text-center text-slate-500 dark:text-slate-400 text-xs font-mono">
               No system commands found matching &quot;{query}&quot;
             </div>
           ) : (
@@ -347,34 +359,44 @@ function CommandPaletteModal({
                   onMouseEnter={() => setSelectedIndex(idx)}
                   className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-left transition-all ${
                     isSelected
-                      ? 'bg-cyan-950/60 border border-cyan-800/40 text-cyan-200 shadow-inner'
-                      : 'text-slate-300 hover:bg-white/[0.03] border border-transparent'
+                      ? 'bg-cyan-50 border border-cyan-400/80 text-cyan-950 shadow-sm dark:bg-cyan-950/60 dark:border-cyan-800/40 dark:text-cyan-200 dark:shadow-inner'
+                      : 'text-slate-700 hover:bg-slate-100/80 border border-transparent dark:text-slate-300 dark:hover:bg-white/[0.03]'
                   }`}
                 >
                   <div className="flex items-center space-x-3 overflow-hidden">
                     <div
-                      className={`p-2 rounded-lg ${
-                        isSelected ? 'bg-cyan-500/20 text-cyan-300' : 'bg-white/[0.05] text-slate-400'
+                      className={`p-2 rounded-lg transition-colors ${
+                        isSelected
+                          ? 'bg-cyan-100 text-cyan-700 dark:bg-cyan-500/20 dark:text-cyan-300'
+                          : 'bg-slate-100 text-slate-500 dark:bg-white/[0.05] dark:text-slate-400'
                       }`}
                     >
                       {item.icon}
                     </div>
                     <div className="flex flex-col truncate">
-                      <span className="text-xs font-medium text-slate-100 truncate">
+                      <span
+                        className={`text-xs font-semibold truncate ${
+                          isSelected ? 'text-cyan-950 dark:text-cyan-100 font-bold' : 'text-slate-800 dark:text-slate-100'
+                        }`}
+                      >
                         {item.title}
                       </span>
-                      <span className="text-[11px] text-slate-400 truncate">
+                      <span
+                        className={`text-[11px] truncate ${
+                          isSelected ? 'text-cyan-800 dark:text-cyan-300/80' : 'text-slate-500 dark:text-slate-400'
+                        }`}
+                      >
                         {item.subtitle}
                       </span>
                     </div>
                   </div>
                   <div className="flex items-center space-x-2 shrink-0 ml-3">
-                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.05] text-slate-400 border border-white/[0.08]">
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-100 text-slate-600 border border-slate-200 dark:bg-white/[0.05] dark:text-slate-400 dark:border-white/[0.08]">
                       {item.category}
                     </span>
                     <ArrowRight
                       className={`w-3.5 h-3.5 transition-transform ${
-                        isSelected ? 'translate-x-0.5 text-cyan-400' : 'text-slate-600'
+                        isSelected ? 'translate-x-0.5 text-cyan-600 dark:text-cyan-400' : 'text-slate-400 dark:text-slate-600'
                       }`}
                     />
                   </div>
@@ -385,13 +407,13 @@ function CommandPaletteModal({
         </div>
 
         {/* Palette Footer */}
-        <div className="px-4 py-2 border-t border-white/[0.08] bg-surface-primary/90 flex items-center justify-between text-[11px] font-mono text-slate-400">
+        <div className="px-4 py-2 border-t border-slate-200 dark:border-white/[0.08] bg-slate-50 dark:bg-surface-primary/90 flex items-center justify-between text-[11px] font-mono text-slate-500 dark:text-slate-400">
           <div className="flex items-center space-x-3">
             <span>↑↓ Navigate</span>
             <span>↵ Select</span>
             <span>ESC Close</span>
           </div>
-          <div className="text-cyan-400/80">
+          <div className="text-cyan-700 dark:text-cyan-400/80 font-medium">
             Current: {graphicsMode}
           </div>
         </div>

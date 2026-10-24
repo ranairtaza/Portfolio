@@ -198,6 +198,7 @@ html:not(.dark) .bg-\[\#070a12\],
 html:not(.dark) .bg-\[\#070a12\]\/85,
 html:not(.dark) .bg-\[\#070a12\]\/95,
 html:not(.dark) .bg-\[\#030712\],
+html:not(.dark) .bg-\[\#070d1d\],
 html:not(.dark) .bg-\[\#0c1222\]\/90 {
   background-color: #ffffff !important;
 }
@@ -206,6 +207,14 @@ html:not(.dark) .text-cyan-200,
 html:not(.dark) .text-cyan-300,
 html:not(.dark) .text-cyan-400 {
   color: #0369a1 !important;
+}
+
+html:not(.dark) .text-violet-400 {
+  color: #7c3aed !important;
+}
+
+html:not(.dark) .text-amber-400 {
+  color: #d97706 !important;
 }
 
 html:not(.dark) .bg-cyan-500\/20 {

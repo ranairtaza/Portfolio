@@ -4,6 +4,7 @@ import {
   JourneyMilestone,
   BeyondCodeItem,
   ServiceArea,
+  Certification,
 } from '../types/portfolio';
 import { PROJECTS_DATA } from './projects';
 
@@ -54,6 +55,177 @@ export const PERSONAL_INFO = {
 };
 
 export const PROJECTS: Project[] = PROJECTS_DATA;
+
+export const CERTIFICATIONS: Certification[] = [
+  {
+    id: 'google-ai-job-search-specialization',
+    title: 'Google AI in Job Search Specialization',
+    issuer: 'Google Career Certificates',
+    issuerType: 'Google',
+    issueDate: 'October 11, 2026',
+    credentialId: 'RHYOBWVIO2AN',
+    verificationUrl: 'https://coursera.org/verify/specialization/RHYOBWVIO2AN',
+    certificatePdfUrl: '/certificates/google-ai-job-search-specialization.pdf',
+    category: 'ai',
+    isFeatured: true,
+    summary:
+      '4-course advanced specialization authorized by Google and offered through Coursera, focusing on applied artificial intelligence, prompt engineering, structured workflow automation, and intelligent career assistance.',
+    skills: [
+      'Generative AI Applications',
+      'Prompt Structuring',
+      'AI Workflow Automation',
+      'Strategic Problem Solving',
+      'Interview & Communication Prep',
+    ],
+    subCourses: [
+      {
+        title: 'Uncover Your Transferable Skills with AI',
+        credentialId: '4MOPD30R3JBY',
+        verificationUrl: 'https://coursera.org/verify/4MOPD30R3JBY',
+        pdfUrl: '/certificates/google-ai-power-skills.pdf',
+      },
+      {
+        title: 'Plan Your Job Search with AI',
+        credentialId: '7F54L0U3HDVE',
+        verificationUrl: 'https://coursera.org/verify/7F54L0U3HDVE',
+        pdfUrl: '/certificates/google-ai-job-search-plan.pdf',
+      },
+      {
+        title: 'Manage Your Job Applications with AI',
+        credentialId: '9GD38B1WHVRN',
+        verificationUrl: 'https://coursera.org/verify/9GD38B1WHVRN',
+        pdfUrl: '/certificates/google-ai-job-applications.pdf',
+      },
+      {
+        title: 'Prepare and Practice for Interviews with AI',
+        credentialId: 'CGUVN7DN8BMK',
+        verificationUrl: 'https://coursera.org/verify/CGUVN7DN8BMK',
+        pdfUrl: '/certificates/google-ai-interview-preparation.pdf',
+      },
+    ],
+  },
+  {
+    id: 'outskill-generative-ai',
+    title: 'Generative AI Mastermind',
+    issuer: 'Outskill',
+    issuerType: 'Outskill',
+    issueDate: 'October 2026',
+    certificateImageUrl: '/certificates/outskill-generative-ai.jpg',
+    certificatePdfUrl: '/certificates/outskill-generative-ai.pdf',
+    category: 'ai',
+    isFeatured: true,
+    summary:
+      'Comprehensive masterclass on generative artificial intelligence, LLM orchestration, intelligent agent frameworks, and applied business automation led by Vaibhav Sisinty.',
+    skills: [
+      'Generative AI Systems',
+      'LLM Integrations',
+      'AI Agent Architectures',
+      'Productivity Automation',
+      'Intelligent Workflows',
+    ],
+  },
+  {
+    id: 'cisco-it-customer-support',
+    title: 'IT Customer Support Basics',
+    issuer: 'Cisco Networking Academy',
+    issuerType: 'Cisco',
+    issueDate: 'August 31, 2026',
+    certificatePdfUrl: '/certificates/cisco-it-customer-support-basics.pdf',
+    certificateImageUrl: '/certificates/cisco-it-customer-support-badge.png',
+    category: 'networking-support',
+    isFeatured: true,
+    summary:
+      'Official verified credential from the Cisco Networking Academy program certifying expertise in IT support fundamentals, computer troubleshooting, network connectivity triage, and customer technical resolution.',
+    skills: [
+      'IT Support Fundamentals',
+      'System Diagnostics & Troubleshooting',
+      'Network Connectivity Triage',
+      'Incident Escalation',
+      'Customer Technical Support',
+    ],
+  },
+  {
+    id: 'google-high-performance-team',
+    title: 'Create a High-Performing Team',
+    issuer: 'Google Career Certificates',
+    issuerType: 'Google',
+    issueDate: 'October 9, 2026',
+    credentialId: '6WDAJG7BZHSY',
+    verificationUrl: 'https://coursera.org/verify/6WDAJG7BZHSY',
+    certificatePdfUrl: '/certificates/google-high-performance-team.pdf',
+    category: 'business-leadership',
+    isFeatured: true,
+    summary:
+      'Executive course authorized by Google and offered through Coursera focusing on team dynamics, agile cross-functional collaboration, psychological safety, and accountability in high-velocity tech environments.',
+    skills: [
+      'Cross-Functional Leadership',
+      'Agile Team Dynamics',
+      'Target Alignment & Execution',
+      'Engineering Collaboration',
+      'Psychological Safety',
+    ],
+  },
+  {
+    id: 'talkpool-internship-experience',
+    title: 'Talkpool Pakistan — Engineering Internship Experience',
+    issuer: 'Talkpool Pakistan Pvt. Ltd.',
+    issuerType: 'Talkpool',
+    issueDate: 'July 2026',
+    certificatePdfUrl: '/certificates/talkpool-experience-letter.pdf',
+    category: 'internship',
+    isFeatured: true,
+    summary:
+      'Official Experience & Verification Letter certifying Rana Irtaza Ali Khan tenure as an Internee at Talkpool Pakistan Pvt. Ltd., actively contributing towards project milestones with dedication and professionalism.',
+    skills: [
+      'Telecommunications & Network Operations',
+      'Hardware & Field Systems',
+      'Project Milestones Execution',
+      'Enterprise Collaboration',
+    ],
+  },
+  {
+    id: 'coursera-google-ads',
+    title: 'Google Ads for Beginners',
+    issuer: 'Coursera Project Network',
+    issuerType: 'Coursera',
+    issueDate: 'December 16, 2023',
+    credentialId: 'B4RKDEXHYJL2',
+    verificationUrl: 'https://coursera.org/verify/B4RKDEXHYJL2',
+    certificateImageUrl: '/certificates/coursera-google-ads-for-beginners.png',
+    category: 'marketing',
+    isFeatured: false,
+    summary:
+      'Hands-on verified project covering Google Ads campaign design, conversion tracking, keyword optimization, and digital customer acquisition funnel architecture.',
+    skills: [
+      'Google Ads Campaign Setup',
+      'Search Keyword Targeting',
+      'Conversion Rate Optimization',
+      'PPC Campaign Architecture',
+      'Funnel Analytics',
+    ],
+  },
+  {
+    id: 'coursera-typeform-ticket-management',
+    title: 'Ticket Management with Typeform',
+    issuer: 'Coursera Project Network',
+    issuerType: 'Coursera',
+    issueDate: 'October 11, 2026',
+    credentialId: '19PHNSFJE6D3',
+    verificationUrl: 'https://coursera.org/verify/19PHNSFJE6D3',
+    certificatePdfUrl: '/certificates/coursera-ticket-management-typeform.pdf',
+    category: 'business-leadership',
+    isFeatured: false,
+    summary:
+      'Practical guided project implementing structured inbound request forms, automated ticket routing, customer response categorization, and webhook workflows.',
+    skills: [
+      'Inbound Ticket Routing',
+      'Form Architecture & Webhooks',
+      'Workflow Automation',
+      'CRM & Helpdesk Integrations',
+    ],
+  },
+];
+
 
 export const SKILL_CATEGORIES: SkillCategoryGroup[] = [
   {
@@ -124,6 +296,18 @@ export const SKILL_CATEGORIES: SkillCategoryGroup[] = [
         highlight: 'Auth & Server-Side Handlers',
         projects: ['keyabroad', 'leadmachine'],
       },
+      {
+        name: 'IT Customer Support & Systems Diagnostics',
+        usageExplanation: 'Hardware troubleshooting, operating system triage, network diagnostic commands, and technical customer resolution.',
+        highlight: 'Cisco Networking Academy Certified',
+        projects: ['biometric-attendance'],
+      },
+      {
+        name: 'Inbound Ticket Management & Webhooks',
+        usageExplanation: 'Structured inquiry routing, event webhooks, automated triage pipelines, and CRM/helpdesk synchronization.',
+        highlight: 'Coursera & Typeform Certified',
+        projects: ['leadmachine', 'keyabroad'],
+      },
     ],
   },
   {
@@ -177,6 +361,18 @@ export const SKILL_CATEGORIES: SkillCategoryGroup[] = [
         projects: ['leadmachine'],
       },
       {
+        name: 'Generative AI & LLM Systems',
+        usageExplanation: 'Architecting generative AI applications, model parameter tuning, system instruction design, and AI agent frameworks.',
+        highlight: 'Outskill & Google AI Certified',
+        projects: ['leadmachine'],
+      },
+      {
+        name: 'Prompt Engineering & Structured JSON Output',
+        usageExplanation: 'Designing constrained zero-shot and few-shot prompts with deterministic schema extraction and validation fallbacks.',
+        highlight: 'Google AI Specialization Certified',
+        projects: ['leadmachine'],
+      },
+      {
         name: 'AI-assisted workflows',
         usageExplanation: 'Embedding AI assistance into operational pipelines for automated lead triage, summary generation, and task sorting.',
         highlight: 'Pipeline Enrichment & Triage',
@@ -225,6 +421,18 @@ export const SKILL_CATEGORIES: SkillCategoryGroup[] = [
         usageExplanation: 'Testing critical application flows, form validation constraints, API status code contracts, and error states.',
         highlight: 'Flow Verification & Quality Checks',
         projects: ['leadmachine', 'keyabroad', 'biometric-attendance'],
+      },
+      {
+        name: 'High-Performance Team Collaboration',
+        usageExplanation: 'Agile team dynamics, cross-functional engineering alignment, objective-driven sprints, and psychological safety.',
+        highlight: 'Google Certified',
+        projects: ['keyabroad'],
+      },
+      {
+        name: 'Google Ads & Digital Funnel Architecture',
+        usageExplanation: 'PPC campaign configuration, search keyword targeting, conversion funnel tracking, and landing page alignment.',
+        highlight: 'Coursera Project Certified',
+        projects: ['white-stone', 'keyabroad'],
       },
     ],
   },
@@ -316,6 +524,30 @@ export const JOURNEY_MILESTONES: JourneyMilestone[] = [
       'Implemented technical SEO enhancements, metadata optimization, and responsive user interfaces.',
     ],
     stackTags: ['Next.js', 'React', 'Node.js', 'PostgreSQL', 'Supabase', 'REST APIs', 'Technical SEO', 'Tailwind CSS'],
+  },
+  {
+    id: 'journey-talkpool',
+    type: 'experience',
+    title: 'Engineering Internee',
+    organization: 'Talkpool Pakistan Pvt. Ltd.',
+    location: 'Pakistan',
+    period: 'July 2026',
+    badge: 'Verified Experience Letter',
+    summary:
+      'Completed an engineering internship at Talkpool Pakistan Pvt. Ltd., actively contributing to project objectives and demonstrating professionalism in technical enterprise operations.',
+    scopeOfContribution:
+      'Assisted technical team in achieving project deliverables, collaborating on operational targets, and acquiring hands-on enterprise communications engineering exposure.',
+    outcomes: [
+      'Awarded official Experience Letter from Talkpool Pakistan Pvt. Ltd.',
+      'Contributed actively to achieve targets assigned across active enterprise infrastructure projects.',
+      'Demonstrated high dedication, technical aptitude, and cross-functional team execution.',
+    ],
+    stackTags: ['Telecommunications', 'Systems Operations', 'Field Systems', 'Enterprise Infrastructure'],
+    extensibleDetails: [
+      { label: 'Role', value: 'Internee' },
+      { label: 'Company', value: 'Talkpool Pakistan Pvt. Ltd.' },
+      { label: 'Document', value: 'Official Experience Letter (PDF Available)' },
+    ],
   },
   {
     id: 'journey-saas-experiment',

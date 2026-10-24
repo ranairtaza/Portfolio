@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'motion/react';
 import { PROJECTS } from '../../data/portfolio';
-import { ProjectCategory } from '../../types/portfolio';
+import { Project, ProjectCategory } from '../../types/portfolio';
 import { usePortfolio } from '../../context/PortfolioContext';
 import {
   FolderGit2,
@@ -14,12 +14,20 @@ import {
   Terminal,
   GitCommit,
   Lock,
+  ShieldCheck,
+  FileCode2,
+  X,
+  FileCheck2,
+  Check,
 } from 'lucide-react';
 import { GithubIcon } from '../ui/BrandIcons';
+import EvidenceAuditCard from '../ui/EvidenceAuditCard';
 
 export default function ProjectsSection() {
   const { isReducedMotion, setActiveProjectId, activeProjectId } = usePortfolio();
   const [activeCategory, setActiveCategory] = useState<ProjectCategory>('all');
+  const [selectedAuditProject, setSelectedAuditProject] = useState<Project | null>(null);
+  const [showAuditMatrix, setShowAuditMatrix] = useState<boolean>(false);
 
   const categories: { id: ProjectCategory; label: string }[] = [
     { id: 'all', label: 'All Projects' },
@@ -57,21 +65,33 @@ export default function ProjectsSection() {
             </p>
           </div>
 
-          {/* Filter Pills */}
-          <div className="flex flex-wrap gap-1.5 p-1.5 rounded-xl glass-panel border border-white/[0.08] w-fit">
-            {categories.map((cat) => (
-              <button
-                key={cat.id}
-                onClick={() => setActiveCategory(cat.id)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
-                  activeCategory === cat.id
-                    ? 'bg-cyan-300 text-[#070a12] font-semibold shadow-md shadow-cyan-300/20'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-white/[0.05]'
-                }`}
-              >
-                {cat.label}
-              </button>
-            ))}
+          {/* Action Row: Matrix Button & Filter Pills */}
+          <div className="flex flex-wrap items-center gap-2.5">
+            <button
+              type="button"
+              onClick={() => setShowAuditMatrix(true)}
+              className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-xl text-xs font-mono font-medium border border-cyan-400/40 text-cyan-300 bg-cyan-950/40 hover:bg-cyan-950/80 transition-all shadow-sm"
+              title="View Comparative Project Audit & Evidence Matrix"
+            >
+              <ShieldCheck className="w-3.5 h-3.5 text-cyan-300" />
+              <span>Audit & Proof Matrix</span>
+            </button>
+
+            <div className="flex flex-wrap gap-1.5 p-1.5 rounded-xl glass-panel border border-white/[0.08] w-fit">
+              {categories.map((cat) => (
+                <button
+                  key={cat.id}
+                  onClick={() => setActiveCategory(cat.id)}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                    activeCategory === cat.id
+                      ? 'bg-cyan-300 text-[#070a12] font-semibold shadow-md shadow-cyan-300/20'
+                      : 'text-slate-400 hover:text-slate-200 hover:bg-white/[0.05]'
+                  }`}
+                >
+                  {cat.label}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -161,10 +181,15 @@ export default function ProjectsSection() {
                         </div>
                         <div className="text-[10px] text-slate-400 mt-1 font-mono flex items-center justify-between">
                           <span>Status: {project.status}</span>
-                          {project.evidence?.verifiedCommits !== undefined && (
+                          {project.evidence?.verifiedCommits !== undefined ? (
                             <span className="text-cyan-400 flex items-center space-x-1">
                               <GitCommit className="w-3 h-3" />
                               <span>{project.evidence.verifiedCommits} commits</span>
+                            </span>
+                          ) : (
+                            <span className="text-emerald-400 flex items-center space-x-1">
+                              <ShieldCheck className="w-3 h-3" />
+                              <span>Verified Hardware</span>
                             </span>
                           )}
                         </div>
@@ -206,8 +231,20 @@ export default function ProjectsSection() {
                       </ul>
                     </div>
 
+                    {/* Quick Audit Trigger Badge */}
+                    <div className="pt-2">
+                      <button
+                        type="button"
+                        onClick={() => setSelectedAuditProject(project)}
+                        className="w-full inline-flex items-center justify-center space-x-2 py-2 px-3 rounded-xl bg-surface-primary hover:bg-surface-secondary border border-white/[0.08] hover:border-cyan-400/40 text-xs font-mono text-slate-200 hover:text-cyan-300 transition-all shadow-sm"
+                      >
+                        <ShieldCheck className="w-3.5 h-3.5 text-cyan-400" />
+                        <span>View Repository Audit & Proof</span>
+                      </button>
+                    </div>
+
                     {/* Tech Tags */}
-                    <div className="pt-2 flex flex-wrap gap-1.5">
+                    <div className="pt-1 flex flex-wrap gap-1.5">
                       {project.technologies.slice(0, 5).map((tech) => (
                         <span
                           key={tech}
@@ -240,19 +277,21 @@ export default function ProjectsSection() {
                           href={project.githubUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/[0.06] transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-cyan-300"
+                          className="inline-flex items-center space-x-1 p-1.5 px-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/[0.06] border border-white/[0.06] transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-cyan-300"
                           title="View Verified GitHub Repository"
                           aria-label={`GitHub for ${project.title}`}
                         >
-                          <GithubIcon className="w-4 h-4" />
+                          <GithubIcon className="w-3.5 h-3.5" />
+                          <span className="text-[10px] font-mono hidden sm:inline">Code</span>
                         </a>
                       ) : (
                         <span
-                          className="p-1.5 text-slate-600 cursor-default"
+                          className="inline-flex items-center space-x-1 p-1.5 px-2 rounded-lg text-slate-500 border border-white/[0.04] cursor-default text-[10px] font-mono"
                           title={project.repoAccessLabel || 'Private System'}
                           aria-label="Private or On-Premise System"
                         >
-                          <Lock className="w-3.5 h-3.5" />
+                          <Lock className="w-3 h-3 text-slate-500" />
+                          <span className="hidden sm:inline">Internal</span>
                         </span>
                       )}
 
@@ -261,11 +300,12 @@ export default function ProjectsSection() {
                           href={project.liveUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="p-1.5 rounded-lg text-slate-400 hover:text-cyan-300 hover:bg-white/[0.06] transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-cyan-300"
+                          className="inline-flex items-center space-x-1 p-1.5 px-2 rounded-lg text-emerald-400 hover:text-emerald-300 bg-emerald-950/50 hover:bg-emerald-950/80 border border-emerald-800/40 transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-cyan-300"
                           title="View Live Demonstration"
                           aria-label={`Live Demo for ${project.title}`}
                         >
-                          <ExternalLink className="w-4 h-4" />
+                          <ExternalLink className="w-3.5 h-3.5" />
+                          <span className="text-[10px] font-mono font-semibold hidden sm:inline">Live Demo</span>
                         </a>
                       )}
                     </div>
@@ -276,6 +316,178 @@ export default function ProjectsSection() {
           </AnimatePresence>
         </div>
       </div>
+
+      {/* Single Project Audit Proof Modal */}
+      <AnimatePresence>
+        {selectedAuditProject && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md"
+            onClick={() => setSelectedAuditProject(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative w-full max-w-3xl max-h-[90vh] flex flex-col rounded-2xl glass-panel border border-white/[0.15] bg-[#0c1222] overflow-hidden shadow-2xl"
+            >
+              <div className="flex items-center justify-between px-6 py-4 border-b border-white/[0.08] bg-[#070a12]/90">
+                <div className="flex items-center space-x-2 text-sm font-mono text-white">
+                  <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                  <span className="font-semibold">Project Audit & Verification Proof</span>
+                </div>
+                <button
+                  onClick={() => setSelectedAuditProject(null)}
+                  className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              <div className="p-6 overflow-y-auto max-h-[calc(90vh-70px)] space-y-5">
+                <EvidenceAuditCard
+                  evidence={selectedAuditProject.evidence}
+                  githubUrl={selectedAuditProject.githubUrl}
+                  liveUrl={selectedAuditProject.liveUrl}
+                  repoAccessType={selectedAuditProject.repoAccessType}
+                  repoAccessLabel={selectedAuditProject.repoAccessLabel}
+                  projectTitle={selectedAuditProject.title}
+                />
+
+                <div className="flex items-center justify-between pt-2">
+                  <Link
+                    href={`/projects/${selectedAuditProject.slug}`}
+                    className="inline-flex items-center space-x-2 px-4 py-2 rounded-xl bg-cyan-300 text-[#070a12] text-xs font-mono font-semibold hover:bg-cyan-200 transition-colors"
+                  >
+                    <span>Open Complete Case Study</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                  <button
+                    onClick={() => setSelectedAuditProject(null)}
+                    className="px-4 py-2 text-xs font-mono text-slate-400 hover:text-white"
+                  >
+                    Close Proof View
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Comparative Audit & Proof Matrix Modal */}
+      <AnimatePresence>
+        {showAuditMatrix && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md"
+            onClick={() => setShowAuditMatrix(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative w-full max-w-4xl max-h-[90vh] flex flex-col rounded-2xl glass-panel border border-white/[0.15] bg-[#0c1222] overflow-hidden shadow-2xl"
+            >
+              <div className="flex items-center justify-between px-6 py-4 border-b border-white/[0.08] bg-[#070a12]/90">
+                <div className="flex items-center space-x-2 text-sm font-mono text-white">
+                  <ShieldCheck className="w-4 h-4 text-cyan-300" />
+                  <span className="font-semibold">All Projects // Verification & Evidence Matrix</span>
+                </div>
+                <button
+                  onClick={() => setShowAuditMatrix(false)}
+                  className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              <div className="p-6 overflow-x-auto max-h-[calc(90vh-70px)]">
+                <table className="w-full text-left text-xs font-mono border-collapse">
+                  <thead>
+                    <tr className="border-b border-white/[0.08] text-slate-400 text-[11px] uppercase">
+                      <th className="pb-3 pr-4">Project</th>
+                      <th className="pb-3 pr-4">Status & Category</th>
+                      <th className="pb-3 pr-4">Code Proof</th>
+                      <th className="pb-3 pr-4">Deploy Proof</th>
+                      <th className="pb-3 pr-4">Test Suite</th>
+                      <th className="pb-3">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-white/[0.05] text-slate-300">
+                    {PROJECTS.map((proj) => (
+                      <tr key={proj.id} className="hover:bg-white/[0.02]">
+                        <td className="py-4 pr-4">
+                          <span className="font-bold text-white block">{proj.title}</span>
+                          <span className="text-[11px] text-slate-400 font-sans">{proj.subtitle}</span>
+                        </td>
+                        <td className="py-4 pr-4">
+                          <span className="inline-block px-2 py-0.5 rounded text-[10px] bg-surface-secondary text-slate-300 border border-white/[0.06]">
+                            {proj.status}
+                          </span>
+                        </td>
+                        <td className="py-4 pr-4">
+                          {proj.evidence?.verifiedCommits !== undefined ? (
+                            <div className="flex items-center space-x-1.5 text-cyan-300">
+                              <GitCommit className="w-3.5 h-3.5" />
+                              <span>{proj.evidence.verifiedCommits} commits</span>
+                            </div>
+                          ) : (
+                            <span className="text-slate-500">Proprietary / On-Prem</span>
+                          )}
+                        </td>
+                        <td className="py-4 pr-4">
+                          {proj.liveUrl ? (
+                            <a
+                              href={proj.liveUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center space-x-1 text-emerald-400 hover:underline"
+                            >
+                              <span>Live Vercel</span>
+                              <ExternalLink className="w-3 h-3" />
+                            </a>
+                          ) : (
+                            <span className="text-slate-400">On-Premises / Enterprise</span>
+                          )}
+                        </td>
+                        <td className="py-4 pr-4">
+                          {proj.evidence?.hasAutomatedTests ? (
+                            <span className="inline-flex items-center space-x-1 text-emerald-300">
+                              <Check className="w-3.5 h-3.5" />
+                              <span>Automated</span>
+                            </span>
+                          ) : (
+                            <span className="text-slate-500">Manual / Hardware QA</span>
+                          )}
+                        </td>
+                        <td className="py-4">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setShowAuditMatrix(false);
+                              setSelectedAuditProject(proj);
+                            }}
+                            className="px-2.5 py-1 rounded-lg bg-surface-secondary hover:bg-surface-primary text-slate-200 hover:text-cyan-300 border border-white/[0.08] transition-colors"
+                          >
+                            Inspect
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
